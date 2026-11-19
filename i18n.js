@@ -126,6 +126,8 @@
       'buy.lede': 'Pick one package or several - they add up in the summary. Your ticket is issued the moment payment clears, and you pick your track day afterwards.',
       'buy.secPackages': '1 · Packages',
       'buy.secExp': 'Or an experience',
+      // Hot Laps is sold by the car, so the car has to be chosen.
+      'buy.pickCar': 'Choose your car',
       'buy.secYou': '2 · Your details',
       'buy.faqLink': 'Questions? Read the FAQ',
       'buy.heard': 'Where did you hear about us?',
@@ -458,6 +460,7 @@
       'buy.lede': 'Válassz egy vagy több csomagot - ezek a kosárban együtt jelennek meg. A jegyedet a fizetés beérkezésekor azonnal kiállítjuk, a pályanapot pedig utána választod ki.',
       'buy.secPackages': '1 · Csomagok',
       'buy.secExp': 'Vagy egy élményprogram',
+      'buy.pickCar': 'Válaszd ki az autót',
       'buy.secYou': '2 · A Te adataid',
       'buy.faqLink': 'Kérdésed van? Olvasd el a GYIK-et',
       'buy.heard': 'Honnan hallottál rólunk?',
