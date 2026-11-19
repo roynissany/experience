@@ -188,7 +188,9 @@
       'buy.paying': 'Paying…',
       // Selections, not sessions: an experience moves the counter too, so
       // naming sessions here would be promising the wrong thing.
-      'buy.nudge': 'Add {n} more <strong>selections</strong> for <strong>{pct}%</strong> off everything',
+      'common.selectionOne': 'selection',
+      'common.selectionMany': 'selections',
+      'buy.nudge': 'Add {n} more <strong>{selections}</strong> for <strong>{pct}%</strong> off everything',
       'buy.noCard': 'We never see your card details.',
       'buy.codeOne': 'Your ticket is issued the moment payment clears.',
       'buy.refund': 'For refund requests, {email}.',
@@ -516,6 +518,8 @@
       'buy.pay': 'Fizetés kártyával',
       'buy.payApple': 'Fizetés Apple Pay-jel',
       'buy.paying': 'Fizetés…',
+      'common.selectionOne': 'tétel',
+      'common.selectionMany': 'tétel',
       'buy.nudge': 'Válassz még <strong>{n} tételt</strong>, és mindenre <strong>{pct}%</strong> kedvezményt kapsz',
       'buy.noCard': 'A kártyaadataidat soha nem látjuk.',
       'buy.codeOne': 'A jegyedet a fizetés beérkezésekor azonnal kiállítjuk.',
