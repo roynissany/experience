@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n-title="reg.title">Register your ticket - Balaton Park Circuit</title>
+<meta name="description" content="Register your Balaton Park Circuit ticket and choose your track days.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png?v=20261119">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:title" content="Register your Balaton Park Circuit ticket">
+<meta property="og:description" content="Pick your track days and get your booking code.">
+<meta property="og:image" content="https://experience.balatonpark.com/og-share.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap">
+<style>
+  :root{--ink:#0A1422;--blue:#427AB7;--pale:#A8CEF0;--text:#F5F7FB;
+        --cond:'Barlow Condensed',sans-serif}
+  *{box-sizing:border-box}
+  /* An inline display: beats the hidden attribute otherwise. */
+  [hidden]{display:none!important}
+  body{margin:0;touch-action:manipulation;background:var(--ink);color:var(--text);
+    font-family:Inter,-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;display:flex;flex-direction:column;min-height:100vh}
+  a{color:var(--pale)} a:hover{color:var(--text)}
+  h1,h2,h3{font-family:var(--cond);font-weight:800;text-transform:uppercase;margin:0}
+  input,button{font-family:inherit}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes kenburns{from{transform:scale(1.05)}to{transform:scale(1.16)}}
+  @keyframes rule{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+  @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(66,122,183,0)}50%{box-shadow:0 0 0 6px rgba(66,122,183,.14)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .up{animation:fadeUp .95s cubic-bezier(.22,.61,.36,1) both}
+  .fi{animation:fadeIn 1.3s ease both}
+  .d1{animation-delay:.12s}.d2{animation-delay:.26s}
+  .kb{animation:kenburns 28s ease-out both alternate infinite}
+  .rule{transform-origin:left;animation:rule .8s cubic-bezier(.22,.61,.36,1) both}
+  .pulse{animation:pulse 2.6s ease-in-out infinite}
+  .glow{animation:glow 3s ease-in-out infinite}
+  .lift{transition:transform .35s cubic-bezier(.22,.61,.36,1),background .25s,border-color .25s,box-shadow .35s}
+  .lift:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(0,0,0,.42)}
+  .spinner{width:22px;height:22px;border:2px solid rgba(168,206,240,.28);
+    border-top-color:var(--pale);border-radius:50%;animation:spin .9s linear infinite;flex:0 0 auto}
+  @media (prefers-reduced-motion:reduce){
+    .up,.fi,.kb,.rule,.pulse,.glow{animation:none!important;opacity:1!important;transform:none!important}
+    .lift{transition:none!important}
+  }
+
+  .pad{padding-left:clamp(20px,5vw,56px);padding-right:clamp(20px,5vw,56px)}
+  .wrap{width:100%;max-width:880px;margin:0 auto}
+  .hero{position:relative;min-height:clamp(230px,32vw,290px);display:flex;
+    flex-direction:column;justify-content:space-between;overflow:hidden}
+  .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero .veil{position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(10,20,34,.68) 0%,rgba(10,20,34,.38) 40%,rgba(10,20,34,.97) 100%)}
+  h1{font-size:clamp(34px,6.6vw,62px);line-height:.96}
+  .eyebrow{display:flex;align-items:center;gap:14px;margin:0 0 16px;font-size:12px;
+    font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:rgba(245,247,251,.85)}
+  .eyebrow i{display:inline-block;width:40px;height:2px;background:var(--blue)}
+
+  .panel{padding:clamp(22px,4vw,36px);background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.10)}
+  label.f{display:block;margin-bottom:12px;font-size:12px;font-weight:600;
+    letter-spacing:.18em;text-transform:uppercase;color:rgba(245,247,251,.72)}
+  #code{width:100%;height:70px;padding:0 20px;background:var(--ink);
+    border:1px solid rgba(255,255,255,.20);color:var(--text);font-family:var(--cond);
+    font-size:clamp(22px,5vw,32px);font-weight:700;letter-spacing:.16em;
+    transition:border-color .25s,background .25s}
+  #code:focus{outline:none;border-color:var(--blue);background:rgba(66,122,183,.10)}
+  #code[aria-invalid=true]{border-color:#D9604F}
+  .go{width:100%;min-height:60px;margin-top:22px;background:var(--blue);color:#fff;
+    border:none;font-family:var(--cond);font-weight:800;font-size:22px;
+    letter-spacing:.04em;text-transform:uppercase;cursor:pointer}
+  .go:disabled{opacity:.55;cursor:default}
+
+  .banner{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;
+    padding:20px 24px;background:rgba(66,122,183,.16);border-left:2px solid var(--blue)}
+  .dot{display:inline-block;width:8px;height:8px;background:var(--pale);border-radius:50%}
+  .linkish{background:none;border:none;color:var(--pale);font-size:14px;font-weight:500;
+    cursor:pointer;padding:6px 8px;min-height:44px}
+
+  h2.sec{display:flex;align-items:center;gap:14px;margin:0 0 18px;font-size:12px;
+    font-weight:600;letter-spacing:.22em;color:rgba(245,247,251,.72)}
+  h2.sec i{display:inline-block;width:28px;height:2px;background:var(--blue)}
+
+  .day{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;
+    min-height:86px;padding:18px 26px;color:var(--text);cursor:pointer;
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10)}
+  .day[aria-pressed=true]{background:#16293F;border:2px solid var(--blue)}
+  .day .lab{font-family:var(--cond);font-weight:800;font-size:clamp(24px,5vw,32px);
+    line-height:1;text-transform:uppercase;white-space:nowrap}
+  .day .sub{font-size:13px;font-weight:300;color:rgba(245,247,251,.60)}
+  .day .tag{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--pale);white-space:nowrap}
+  .soon{flex:1 1 180px;display:flex;align-items:center;justify-content:center;
+    padding:22px 20px;border:1px dashed var(--blue);text-align:center}
+  .soon span{font-family:var(--cond);font-weight:800;font-size:24px;line-height:1.05;
+    letter-spacing:.04em;text-transform:uppercase;color:var(--pale)}
+
+  .chip{min-height:56px;min-width:56px;padding:0 20px;font-family:var(--cond);
+    font-weight:800;font-size:22px;letter-spacing:.04em;text-transform:uppercase;
+    cursor:pointer;background:rgba(255,255,255,.04);color:var(--text);
+    border:1px solid rgba(255,255,255,.20);transition:transform .2s,background .2s,border-color .2s}
+  .chip:hover{transform:translateY(-2px)}
+  .chip[aria-pressed=true]{background:var(--blue);color:#fff;border:2px solid var(--blue)}
+
+  .note{display:flex;gap:14px;align-items:flex-start;padding:18px 22px;
+    background:rgba(66,122,183,.12);border:1px solid rgba(66,122,183,.45)}
+  .note p{margin:0;font-size:14px;font-weight:300;line-height:1.7;color:rgba(245,247,251,.85)}
+  .err{padding:12px 15px;background:rgba(217,96,79,.13);border:1px solid rgba(217,96,79,.3);
+    color:#F0A99D;font-size:14px;line-height:1.55}
+  .err[hidden]{display:none}
+
+  .codebox{display:flex;flex-wrap:wrap;gap:14px;align-items:stretch}
+  .ticket{flex:1 1 280px;display:flex;align-items:center;padding:20px clamp(16px,3vw,26px);
+    background:var(--ink);border:1px dashed var(--blue);font-family:var(--cond);
+    font-size:clamp(24px,5.5vw,36px);font-weight:800;letter-spacing:.12em;line-height:1;
+    color:var(--pale);word-break:break-all}
+  .copy{min-height:62px;padding:0 26px;background:rgba(255,255,255,.06);color:var(--text);
+    border:1px solid rgba(255,255,255,.22);font-size:15px;font-weight:500;cursor:pointer}
+  .parts{border:1px solid rgba(255,255,255,.10);padding:22px 26px;background:rgba(255,255,255,.04)}
+  .part{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;
+    padding:11px 0;border-top:1px solid rgba(255,255,255,.08)}
+  .part:first-of-type{border-top:0}
+  .part .what{font-size:15px;font-weight:300}
+  .part .pc{font-family:var(--cond);font-weight:700;font-size:18px;letter-spacing:.1em;color:var(--pale)}
+
+  footer{border-top:1px solid rgba(255,255,255,.10);margin-top:auto}
+  footer .inner{display:flex;flex-wrap:wrap;gap:20px;align-items:center;
+    justify-content:space-between;padding-top:26px;padding-bottom:26px;
+    font-size:13px;color:rgba(245,247,251,.55)}
+  footer a{text-decoration:none;color:rgba(245,247,251,.55)}
+  footer a:hover{color:var(--text)}
+
+  .langpick{display:flex;gap:6px;flex:0 0 auto}
+  .langpick button{min-height:44px;min-width:52px;padding:0 14px;cursor:pointer;
+    background:rgba(10,20,34,.55);color:rgba(245,247,251,.72);
+    border:1px solid rgba(255,255,255,.28);border-radius:0;
+    font-family:var(--cond);font-weight:800;font-size:17px;letter-spacing:.08em;
+    transition:background .2s,color .2s,border-color .2s}
+  .langpick button:hover{color:var(--text);border-color:rgba(255,255,255,.55)}
+  .langpick button[aria-pressed=true]{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .headrow{display:flex;align-items:center;justify-content:space-between;gap:16px}
+</style>
+<script src="i18n.js?v=20261119a"></script>
+<script src="analytics.js?v=20261119a" defer></script>
+</head>
+<!-- redeem, not register: the hit function keeps a whitelist of page names and
+     this page does the same job as the gift site's, so it counts in the same
+     bucket rather than falling through to "other". -->
+<body data-page="redeem">
+
+<section class="hero">
+  <img class="bg kb" src="gantry.jpg" alt="The gantry over the main straight at Balaton Park Circuit">
+  <div class="veil"></div>
+  <div class="fi wrap pad headrow" style="position:relative;padding-top:30px">
+    <a href="index.html" style="display:inline-flex"><img src="bpc-logo.svg" alt="Balaton Park Circuit" style="height:clamp(26px,4vw,30px);width:auto"></a>
+    <div id="langpick"></div>
+  </div>
+  <div class="wrap pad" style="position:relative;padding-bottom:clamp(30px,5vw,38px)">
+    <p class="eyebrow up"><i class="rule"></i><span id="eyebrow">Step 1 of 2 · Your code</span></p>
+    <h1 class="up d1" id="headline">Register your ticket.</h1>
+  </div>
+</section>
+
+<main class="wrap pad" style="padding-top:clamp(32px,5vw,48px);padding-bottom:clamp(48px,8vw,84px)">
+  <div id="view"></div>
+</main>
+
+<footer>
+  <div class="inner wrap pad">
+    <a href="https://balatonpark.com" target="_blank" rel="noopener" style="display:inline-flex">
+      <img src="bpc-logo.svg" alt="Balaton Park Circuit" style="height:22px;width:auto;opacity:.75"></a>
+    <span style="display:flex;flex-wrap:wrap;gap:24px">
+      <a href="https://balatonpark.com" target="_blank" rel="noopener" data-i18n="foot.site">BalatonPark.com</a>
+      <a href="faq.html" data-i18n="foot.faq">FAQ</a>
+      <a href="https://www.balatonparkcircuit.com/tc" target="_blank" rel="noopener" data-i18n="foot.terms">Terms</a>
+      <a href="https://www.balatonparkcircuit.com/privacy-policy" target="_blank" rel="noopener" data-i18n="foot.privacy">Privacy</a>
+      <a href="mailto:info@balatonparkcircuit.com" data-i18n="foot.contact">Contact us</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  // The same endpoint the gift site calls. Registering a ticket and redeeming
+  // a voucher are the same transaction against the same pool - only the word
+  // in front of the customer is different.
+  var API = 'https://hbosxvmprhzrheilwwfv.supabase.co/functions/v1/redeem';
+  var view = document.getElementById('view');
+
+  var esc = function (s) { return String(s == null ? '' : s)
+    .replace(/[&<>"]/g, function (c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); };
+  var el = function (t, c, h) { var n = document.createElement(t);
+    if (c) n.className = c; if (h !== undefined) n.innerHTML = h; return n; };
+  var day = function (s) { return i18n.formatDate(s); };
+  // same date, inflected for use in front of a noun (Hungarian)
+  var dayAdj = function (s) { return i18n.formatDateAdj(s); };
+  var t = function (k, v) { return i18n.t(k, v); };
+  var sessionWord = function (n) {
+    return t(n === 1 ? 'common.sessionOne' : 'common.sessionMany');
+  };
+  var plural = function (n) { return n + ' ' + sessionWord(n); };
+  var emailLink = function (subject, label) {
+    return '<a href="mailto:info@balatonparkcircuit.com?subject=' + subject + '">' +
+           (label || t('common.emailUs')) + '</a>';
+  };
+
+  var state = { code: '', data: null, pickedDay: null, pickedCount: 1, busy: false };
+  var screen = null;   // what is on screen, so a language change can redraw it
+
+  function setHead(eyebrow, headline) {
+    document.getElementById('eyebrow').textContent = eyebrow;
+    document.getElementById('headline').textContent = headline;
+  }
+
+  // Ticket codes get read off a printed sheet or dictated down a phone, so
+  // accept whatever shape they arrive in and tidy it here.
+  function tidy(raw) {
+    var bare = String(raw).toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/^BPC/, '');
+    return bare.length === 8 ? 'BPC-' + bare.slice(0, 4) + '-' + bare.slice(4)
+                             : String(raw).toUpperCase().trim();
+  }
+
+  function call(payload) {
+    return fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (res) {
+      return res.json().then(function (body) {
+        if (!res.ok) { var e = new Error(body.error || 'failed'); e.code = body.error; e.status = res.status; throw e; }
+        return body;
+      });
+    });
+  }
+
+  var MESSAGES = {
+    not_found: 'reg.errNotFound',
+    voucher_not_found: 'reg.errNotFound',
+    expired: 'reg.errExpired',
+    voucher_expired: 'reg.errExpired',
+    voucher_void: 'reg.errVoid',
+    voucher_not_redeemable: 'reg.errVoid',
+    too_many_attempts: 'reg.errRate',
+    rate_limited: 'reg.errRate',
+    pool_empty: 'reg.errPool',
+    no_pool_for_session_count: 'reg.errCombo',
+    bad_session_count: 'reg.errCount',
+    not_splittable: 'reg.errSplit',
+    server_error: 'reg.errServer'
+  };
+  function human(e) {
+    if (MESSAGES[e.code]) return t(MESSAGES[e.code]);
+    return t(e instanceof TypeError ? 'reg.errNet' : 'reg.errGeneric');
+  }
+
+  // ---------------------------------------------------------------- step 1
+
+  function askForCode(prefill, problem) {
+    screen = { kind: 'code', prefill: prefill, problem: problem };
+    setHead(t('reg.step1'), t('reg.h1'));
+    view.replaceChildren();
+
+    var box = el('div', 'panel up',
+      '<label class="f" for="code">' + t('reg.codeLabel') + '</label>' +
+      '<input id="code" type="text" inputmode="latin" autocomplete="off" spellcheck="false" placeholder="BPC-XXXX-XXXX">' +
+      '<p class="err" id="e1" hidden></p>' +
+      '<button type="button" class="go lift" id="goBtn">' + t('reg.continue') + '</button>' +
+      '<p style="margin:20px 0 0;font-size:13px;font-weight:300;line-height:1.7;color:rgba(245,247,251,.60)">' +
+        t('reg.lost', { email: emailLink('Lost%20Ticket%20Code', t('reg.emailUs')) }) + '</p>');
+    view.append(el('p', 'up', t('reg.lede')));
+    view.firstChild.style.cssText = 'margin:0 0 32px;font-size:17px;font-weight:300;color:rgba(245,247,251,.72)';
+    view.append(box);
+
+    var input = document.getElementById('code');
+    var btn = document.getElementById('goBtn');
+    if (prefill) input.value = prefill;
+    if (problem) showErr('e1', problem);
+
+    input.addEventListener('input', function () {
+      input.removeAttribute('aria-invalid');
+      document.getElementById('e1').hidden = true;
+    });
+    input.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') btn.click(); });
+    btn.addEventListener('click', function () { lookup(input.value, btn); });
+    if (!prefill) input.focus();
+  }
+
+  function showErr(id, text) {
+    var n = document.getElementById(id);
+    if (!n) return;
+    n.textContent = text;
+    n.hidden = false;
+  }
+
+  function lookup(raw, btn) {
+    var code = tidy(raw);
+    // "DEMO" is a permanently valid code for showing the flow; it is shorter
+    // than a real ticket, so it has to skip the length check.
+    if (code !== 'DEMO' && (!code || code.length < 8)) {
+      document.getElementById('code').setAttribute('aria-invalid', 'true');
+      return showErr('e1', t('reg.tooShort'));
+    }
+    btn.disabled = true;
+    btn.textContent = t('reg.checking');
+    // Two arguments rather than .catch: a failure while drawing the next
+    // screen must not be reported as a bad ticket code.
+    call({ action: 'lookup', code: code }).then(function (d) {
+      state.code = d.voucher && d.voucher.code ? d.voucher.code : code;
+      state.data = d;
+      state.pickedDay = null;
+      state.pickedCount = 1;
+      render();
+    }, function (e) {
+      btn.disabled = false;
+      btn.textContent = t('reg.continue');
+      var input = document.getElementById('code');
+      if (input) input.setAttribute('aria-invalid', 'true');
+      showErr('e1', human(e));
+    });
+  }
+
+  // ---------------------------------------------------------------- step 2
+
+  function render() {
+    screen = { kind: 'pick' };
+    var d = state.data;
+    if (d.fully_redeemed && (!d.sessions_remaining || d.sessions_remaining === 0)) return renderSpent(d);
+
+    // An experience has no track day to pick and no Cooltix code behind it,
+    // so this branch comes before anything that counts sessions. Rather than
+    // an empty picker the page says when dates land and how to reach us.
+    if (d.experience) {
+      setHead(t('reg.expStep'), t('reg.expH2'));
+      view.replaceChildren();
+      var xb = el('div', 'banner up',
+        '<span style="display:flex;align-items:center;gap:12px;font-size:15px;font-weight:300">' +
+          '<span class="dot pulse"></span>' +
+          '<span><strong style="font-family:var(--cond);font-weight:800;font-size:19px;' +
+            'letter-spacing:.1em">' + esc(state.code) + '</strong> - ' +
+            esc(d.voucher.package) + '</span></span>');
+      var xs = el('button', 'linkish', t('reg.different'));
+      xs.type = 'button';
+      xs.addEventListener('click', function () { state.data = null; askForCode(''); });
+      xb.append(xs);
+      view.append(xb);
+
+      var xi = el('p', 'up d1', t('reg.expIntro'));
+      xi.style.cssText = 'margin:32px 0 22px;font-size:17px;font-weight:300;' +
+        'line-height:1.7;color:rgba(245,247,251,.80)';
+      view.append(xi);
+
+      view.append(el('div', 'note up d1',
+        '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#A8CEF0" ' +
+        'stroke-width="2" stroke-linecap="round" style="flex:0 0 auto;margin-top:1px" ' +
+        'aria-hidden="true"><circle cx="12" cy="12" r="9"></circle>' +
+        '<path d="M12 11v5M12 7.5v.5"></path></svg>' +
+        '<p>' + t('reg.expNotice', {
+          contact: '<a href="mailto:info@balatonparkcircuit.com?subject=' +
+            encodeURIComponent('Experience ticket ' + state.code) + '">' +
+            t('reg.expContact') + '</a>'
+        }) + '</p>'));
+      i18n.apply(view);
+      return;
+    }
+
+    var left = d.sessions_remaining;
+    var total = d.sessions_total;
+    setHead(t('reg.step2', { left: left, total: total }),
+            t(left === total ? 'reg.h2fresh' : 'reg.h2more'));
+
+    view.replaceChildren();
+
+    // Which ticket this is, and a way back out of it.
+    var banner = el('div', 'banner up',
+      '<span style="display:flex;align-items:center;gap:12px;font-size:15px;font-weight:300">' +
+        '<span class="dot pulse"></span>' +
+        '<span><strong style="font-family:var(--cond);font-weight:800;font-size:19px;letter-spacing:.1em">' +
+          esc(state.code) + '</strong> - ' +
+          t(left === 1 ? 'reg.leftOne' : 'reg.leftMany', { n: left }) + '</span></span>');
+    var swap = el('button', 'linkish', t('reg.different'));
+    swap.type = 'button';
+    swap.addEventListener('click', function () { state.data = null; askForCode(''); });
+    banner.append(swap);
+    view.append(banner);
+
+    if (d.parts && d.parts.length) view.append(partsPanel(d.parts, t('reg.already')));
+
+    var intro = el('p', 'up d1', d.parts && d.parts.length
+      ? t('reg.introMore') : t('reg.introFresh', { n: total }));
+    intro.style.cssText = 'margin:32px 0 22px;font-size:17px;font-weight:300;line-height:1.7;color:rgba(245,247,251,.72)';
+    view.append(intro);
+
+    view.append(el('div', 'note up d1',
+      '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#A8CEF0" stroke-width="2" stroke-linecap="round" style="flex:0 0 auto;margin-top:1px" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v5M12 7.5v.5"></path></svg>' +
+      '<p>' + t('reg.notice', {
+        subscribe: '<a href="https://balatonpark.com" target="_blank" rel="noopener">' +
+                   t('reg.subscribe') + '</a>'
+      }) + '</p>'));
+
+    // --- day
+    var h1 = el('h2', 'sec', '<i></i>' + t('reg.whichDay'));
+    h1.style.marginTop = '40px';
+    view.append(h1);
+
+    var days = el('div');
+    days.style.cssText = 'display:flex;flex-wrap:wrap;gap:10px;align-items:stretch';
+    var col = el('div');
+    col.style.cssText = 'flex:999 1 380px;min-width:0;display:flex;flex-direction:column;gap:10px';
+
+    // Named td, not t: a loop variable called t would shadow the translator.
+    (d.dates || []).forEach(function (td) {
+      var spent = (d.parts || []).filter(function (p) {
+        return p.track_day && p.track_day.date === td.event_date;
+      }).reduce(function (s, p) { return s + (p.sessions || 0); }, 0);
+
+      var b = el('button', 'day lift',
+        '<span style="display:flex;align-items:baseline;gap:16px;text-align:left;min-width:0;flex-wrap:wrap">' +
+          '<span class="lab">' + esc(day(td.event_date)) + '</span>' +
+          '<span class="sub">' + t('common.saturday') + '</span></span>' +
+        '<span class="tag">' + (spent ? t('reg.alreadyHere', { n: spent }) : '') + '</span>');
+      b.type = 'button';
+      b.setAttribute('aria-pressed', state.pickedDay === td.track_day_id ? 'true' : 'false');
+      if (td.selectable === false) { b.disabled = true; b.style.opacity = '.45'; b.style.cursor = 'default'; }
+      b.addEventListener('click', function () {
+        state.pickedDay = td.track_day_id;
+        state.pickedCount = Math.min(state.pickedCount, left) || 1;
+        render();
+      });
+      col.append(b);
+    });
+
+    days.append(col);
+    days.append(el('div', 'soon', '<span>' + t('reg.soon') + '</span>'));
+    view.append(days);
+
+    // --- how many
+    var picked = (d.dates || []).filter(function (td) { return td.track_day_id === state.pickedDay; })[0];
+    var h2 = el('h2', 'sec', '<i></i>' + (picked
+      ? t('reg.howManyOn', { day: esc(day(picked.event_date)) })
+      : t('reg.howMany')));
+    h2.style.margin = '44px 0 10px';
+    view.append(h2);
+
+    var hint = el('p', null, picked
+      ? t('reg.hint', { n: plural(left) }) : t('reg.hintPickDay'));
+    hint.style.cssText = 'margin:0 0 18px;font-size:14px;font-weight:300;color:rgba(245,247,251,.60)';
+    view.append(hint);
+
+    var chips = el('div');
+    chips.style.cssText = 'display:flex;flex-wrap:wrap;gap:10px';
+    var options = picked ? (picked.options || []) : [];
+    options.filter(function (o) { return o.sessions <= left; }).forEach(function (o) {
+      var c = el('button', 'chip',
+        o.sessions === left && left > 1 ? t('reg.all', { n: o.sessions }) : String(o.sessions));
+      c.type = 'button';
+      c.setAttribute('aria-pressed', state.pickedCount === o.sessions ? 'true' : 'false');
+      if (o.available === false) { c.disabled = true; c.style.opacity = '.4'; }
+      c.addEventListener('click', function () { state.pickedCount = o.sessions; render(); });
+      chips.append(c);
+    });
+    if (!picked) chips.append(el('p', null, '')); // keeps spacing stable
+    view.append(chips);
+
+    var err = el('p', 'err', '');
+    err.id = 'e2';
+    err.hidden = true;
+    err.style.marginTop = '20px';
+    view.append(err);
+
+    var go = el('button', 'go lift',
+      state.pickedCount === left
+        ? t('reg.getCode')
+        : t('reg.getCodeFor', { n: state.pickedCount, sessions: sessionWord(state.pickedCount) }));
+    go.type = 'button';
+    go.style.marginTop = '24px';
+    go.disabled = !picked || state.busy;
+    go.addEventListener('click', function () { claim(go); });
+    view.append(go);
+
+    var rest = left - state.pickedCount;
+    var foot = el('p', null,
+      (state.pickedCount === left
+        ? t('reg.footAll')
+        : t('reg.footSome', { n: rest, sessions: sessionWord(rest) })) + ' ' +
+      t('reg.mayChange', {
+        terms: '<a href="https://www.balatonparkcircuit.com/tc" target="_blank" rel="noopener">' +
+               t('common.terms') + '</a>'
+      }));
+    foot.style.cssText = 'margin:20px 0 0;font-size:13px;font-weight:300;line-height:1.7;color:rgba(245,247,251,.60)';
+    view.append(foot);
+  }
+
+  function claim(btn) {
+    state.busy = true;
+    btn.disabled = true;
+    btn.textContent = t('reg.issuing');
+    call({ action: 'claim', code: state.code,
+           track_day_id: state.pickedDay, sessions: state.pickedCount })
+      .then(function (r) {
+        state.busy = false;
+        renderIssued(r);
+      })
+      .catch(function (e) {
+        state.busy = false;
+        btn.disabled = false;
+        showErr('e2', human(e));
+        // The pool may have emptied while they were deciding, so refresh the
+        // options rather than leaving a button that will fail again.
+        if (e.code === 'pool_empty') {
+          call({ action: 'lookup', code: state.code })
+            .then(function (d) { state.data = d; render(); showErr('e2', human(e)); })
+            .catch(function () {});
+        }
+      });
+  }
+
+  // ---------------------------------------------------------------- issued
+
+  function partsPanel(parts, title) {
+    var box = el('div', 'parts up d1');
+    box.style.marginTop = '22px';
+    box.append(el('p', null, esc(title)));
+    box.firstChild.style.cssText = 'margin:0 0 14px;font-size:12px;font-weight:600;' +
+      'letter-spacing:.18em;text-transform:uppercase;color:rgba(245,247,251,.72)';
+    parts.forEach(function (p) {
+      box.append(el('div', 'part',
+        '<span class="what">' + plural(p.sessions) +
+          ' · ' + esc(day(p.track_day && p.track_day.date)) + '</span>' +
+        '<span class="pc">' + esc(p.cooltix_code) + '</span>'));
+    });
+    return box;
+  }
+
+  function renderIssued(r) {
+    screen = { kind: 'issued', r: r };
+    var left = r.sessions_left;
+    setHead(t('reg.issued'), t(left > 0 ? 'reg.issuedH' : 'reg.doneH'));
+    view.replaceChildren();
+
+    view.append(el('p', 'up', t('reg.issuedLede', {
+      day: esc(day(r.track_day && r.track_day.date)),
+      dayi: esc(dayAdj(r.track_day && r.track_day.date))
+    })));
+    view.firstChild.style.cssText = 'margin:0 0 30px;font-size:17px;font-weight:300;line-height:1.7;color:rgba(245,247,251,.82)';
+
+    var panel = el('div', 'panel up d1',
+      '<p style="margin:0 0 14px;font-size:12px;font-weight:600;letter-spacing:.18em;' +
+        'text-transform:uppercase;color:rgba(245,247,251,.72)">' + t('reg.yourCode') + '</p>' +
+      '<div class="codebox"><span class="ticket glow">' + esc(r.cooltix_code) + '</span>' +
+      '<button type="button" class="copy lift" id="cp">' + t('common.copy') + '</button></div>' +
+      '<dl style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:20px;' +
+        'margin:28px 0 0;padding-top:24px;border-top:1px solid rgba(255,255,255,.10)">' +
+        '<div><dt style="font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,247,251,.60)">' + t('reg.validFor') + '</dt>' +
+          '<dd style="margin:8px 0 0;font-size:15px;font-weight:300">' +
+            t('reg.validForV', { day: esc(day(r.track_day && r.track_day.date)) }) + '</dd></div>' +
+        '<div><dt style="font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,247,251,.60)">' + t('reg.covers') + '</dt>' +
+          '<dd style="margin:8px 0 0;font-size:15px;font-weight:300">' + plural(r.sessions_claimed) + '</dd></div>' +
+        '<div><dt style="font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,247,251,.60)">' + t('reg.uses') + '</dt>' +
+          '<dd style="margin:8px 0 0;font-size:15px;font-weight:300">' + t('reg.usesV') + '</dd></div>' +
+      '</dl>');
+    view.append(panel);
+
+    panel.querySelector('#cp').addEventListener('click', function (ev) {
+      var b = ev.currentTarget;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(r.cooltix_code).then(function () {
+          b.textContent = t('common.copied');
+          setTimeout(function () { b.textContent = t('common.copy'); }, 2200);
+        }, function () { b.textContent = t('common.copyManual'); });
+      } else { b.textContent = t('common.copyManual'); }
+    });
+
+    var steps = el('section', 'up d2');
+    steps.style.marginTop = '46px';
+    steps.innerHTML =
+      '<h2 style="margin:0 0 24px;font-size:clamp(26px,5vw,36px);line-height:1.05">' +
+        t('reg.stepsA') + ' <span style="color:var(--blue)">' + t('reg.stepsB') + '</span></h2>' +
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:26px">' +
+        [t('reg.cstep1'),
+         t('reg.cstep2', { n: r.sessions_claimed, sessions: sessionWord(r.sessions_claimed),
+                           day: esc(day(r.track_day && r.track_day.date)) }),
+         t('reg.cstep3')]
+        .map(function (line, i) {
+          return '<div style="border-top:2px solid var(--blue);padding-top:20px">' +
+            '<p style="margin:0 0 12px;font-family:var(--cond);font-weight:800;font-size:17px;' +
+              'color:var(--pale);letter-spacing:.1em">0' + (i + 1) + '</p>' +
+            '<p style="margin:0;font-size:15px;font-weight:300;line-height:1.7;color:rgba(245,247,251,.80)">' +
+            line + '</p></div>';
+        }).join('') +
+      '</div>';
+    view.append(steps);
+
+    var warn = el('div', 'up d2');
+    warn.style.cssText = 'margin:44px 0 0;padding:24px 28px;background:rgba(255,255,255,.04);border-left:2px solid var(--pale)';
+    warn.innerHTML = '<p style="margin:0;font-size:15px;font-weight:300;line-height:1.75;color:rgba(245,247,251,.85)">' +
+      t('reg.warn', { day: esc(day(r.track_day && r.track_day.date)),
+                      email: emailLink('Change%20Of%20Date') }) + '</p>';
+    view.append(warn);
+
+    if (left > 0) {
+      var more = el('button', 'go lift', t('reg.more', { n: left, sessions: sessionWord(left) }));
+      more.type = 'button';
+      more.style.marginTop = '38px';
+      more.addEventListener('click', function () {
+        more.disabled = true;
+        more.textContent = t('common.loading');
+        call({ action: 'lookup', code: state.code }).then(function (d) {
+          state.data = d; state.pickedDay = null; state.pickedCount = 1; render();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }).catch(function () {
+          more.disabled = false;
+          more.textContent = t('reg.more', { n: left, sessions: sessionWord(left) });
+        });
+      });
+      view.append(more);
+    } else {
+      var back = el('p', 'up d2',
+        '<a href="index.html" style="font-weight:500">' + t('reg.back') + '</a>');
+      back.style.cssText = 'margin:38px 0 0;font-size:14px;font-weight:300';
+      view.append(back);
+    }
+  }
+
+  function renderSpent(d) {
+    screen = { kind: 'spent', d: d };
+    setHead(t('reg.spent'), t('reg.spentH'));
+    view.replaceChildren();
+    view.append(el('p', 'up', t('reg.spentLede', { code: esc(state.code) })));
+    view.firstChild.style.cssText = 'margin:0 0 8px;font-size:17px;font-weight:300;line-height:1.7;color:rgba(245,247,251,.82)';
+    view.append(partsPanel(d.parts || [], t('reg.yourCodes')));
+    var p = el('p', 'up d1', t('reg.needDate', {
+      email: emailLink('Change%20Of%20Date'),
+      buy: '<a href="index.html">' + t('reg.buyAnother') + '</a>'
+    }));
+    p.style.cssText = 'margin:30px 0 0;font-size:14px;font-weight:300;line-height:1.7;color:rgba(245,247,251,.70)';
+    view.append(p);
+  }
+
+  // ---------------------------------------------------------------- boot
+
+  i18n.apply();
+  i18n.mountSwitch(document.getElementById('langpick'));
+  i18n.onChange(function () {
+    if (!screen) return;
+    if (screen.kind === 'code') askForCode(screen.prefill, screen.problem);
+    else if (screen.kind === 'pick') render();
+    else if (screen.kind === 'issued') renderIssued(screen.r);
+    else if (screen.kind === 'spent') renderSpent(screen.d);
+  });
+
+  var prefill = new URLSearchParams(location.search).get('code') || '';
+  askForCode(prefill ? tidy(prefill) : '');
+  if (prefill) {
+    var btn = document.getElementById('goBtn');
+    lookup(prefill, btn);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n-title="ty.title">Your ticket - Balaton Park Circuit</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png?v=20261119">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap">
+<style>
+  :root{--ink:#0A1422;--blue:#427AB7;--pale:#A8CEF0;--text:#F5F7FB;
+        --cond:'Barlow Condensed',sans-serif}
+  *{box-sizing:border-box}
+  /* An inline display: beats the hidden attribute otherwise. */
+  [hidden]{display:none!important}
+  body{margin:0;touch-action:manipulation;background:var(--ink);color:var(--text);
+    font-family:Inter,-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;display:flex;flex-direction:column;min-height:100vh}
+  a{color:var(--pale)} a:hover{color:var(--text)}
+  h1,h2{font-family:var(--cond);font-weight:800;text-transform:uppercase;margin:0}
+  .pad{padding-left:clamp(20px,5vw,56px);padding-right:clamp(20px,5vw,56px)}
+  .wrap{width:100%;max-width:920px;margin:0 auto}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes kenburns{from{transform:scale(1.05)}to{transform:scale(1.17)}}
+  @keyframes rule{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .up{animation:fadeUp .95s cubic-bezier(.22,.61,.36,1) both}
+  .fi{animation:fadeIn 1.3s ease both}
+  .d1{animation-delay:.12s}.d2{animation-delay:.26s}.d3{animation-delay:.4s}
+  .kb{animation:kenburns 28s ease-out both alternate infinite}
+  .rule{transform-origin:left;animation:rule .8s cubic-bezier(.22,.61,.36,1) both}
+  .lift{transition:transform .35s cubic-bezier(.22,.61,.36,1),background .25s,border-color .25s,box-shadow .35s}
+  .lift:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(0,0,0,.42)}
+  @media (prefers-reduced-motion:reduce){
+    .up,.fi,.kb,.rule{animation:none!important;opacity:1!important;transform:none!important}
+    .lift{transition:none!important}
+  }
+
+  .hero{position:relative;min-height:clamp(250px,36vw,340px);display:flex;
+    flex-direction:column;justify-content:space-between;overflow:hidden}
+  .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero .veil{position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(10,20,34,.66) 0%,rgba(10,20,34,.36) 36%,rgba(10,20,34,.97) 100%)}
+  h1{font-size:clamp(36px,7vw,62px);line-height:.96}
+  .eyebrow{display:flex;align-items:center;gap:14px;margin:0 0 18px;font-size:12px;
+    font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:rgba(245,247,251,.9)}
+  .eyebrow i{display:inline-block;width:40px;height:2px;background:var(--blue)}
+
+  .tkwrap{margin:0 0 18px}
+  /* The ticket carries its own width and height so a rasteriser knows its
+     shape; on screen it still scales to whatever it is sitting in. */
+  .tkwrap .ticket{display:block;width:100%;height:auto}
+  .tkblk + .tkblk{margin-top:46px;padding-top:40px;border-top:1px solid rgba(255,255,255,.12)}
+  .tknote{margin:0 0 20px;font-size:15px;font-weight:300;line-height:1.7;color:rgba(245,247,251,.82)}
+  /* The buttons belong to the ticket above them, so the gap below has to be
+     bigger than the gap above or the next ticket reads as part of this one. */
+  .acts{display:flex;flex-wrap:wrap;gap:12px;margin:4px 0 44px}
+  .tkblk > .acts:last-child{margin-bottom:0}
+
+  /* The print sheet is its own document: the page's dark theme and every
+     control are taken out of the flow, and what is left is laid out for an
+     A4 page in ink on white.
+
+     These rules sit OUTSIDE @media print on purpose. The PDF button renders
+     the very same sheet off-screen, and rules inside @media print would not
+     apply to it. .printroot keeps the sheet hidden until one of the two asks
+     for it. The height is a hair under A4 with overflow hidden, because at
+     exactly 297mm sub-pixel rounding tips the sheet onto a second, blank
+     page. */
+  .printroot{display:none}
+  @page{size:A4 portrait;margin:0}
+  @media print{
+    html,body{background:#fff!important;margin:0!important;padding:0!important}
+    body > *{display:none!important}
+    body > .printroot{display:block!important}
+  }
+  .printroot .sheet{position:relative;width:210mm;height:296mm;overflow:hidden;
+    break-inside:avoid;page-break-inside:avoid;padding:13mm;
+    background:#fff;color:#1a1d24;box-sizing:border-box;
+    font-family:Inter,Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .printroot .sheetin{position:relative;height:100%;border:1.6pt solid #B8902C;padding:13mm 12mm;
+    box-sizing:border-box}
+  .printroot .sheetin::before{content:'';position:absolute;inset:3.2mm;border:0.5pt solid #D9BE70}
+  .printroot .orn{position:absolute;width:17mm;height:17mm;border:0 solid #B8902C}
+  .printroot .orn.tl{top:9mm;left:9mm;border-top-width:3pt;border-left-width:3pt}
+  .printroot .orn.tr{top:9mm;right:9mm;border-top-width:3pt;border-right-width:3pt}
+  .printroot .orn.bl{bottom:9mm;left:9mm;border-bottom-width:3pt;border-left-width:3pt}
+  .printroot .orn.br{bottom:9mm;right:9mm;border-bottom-width:3pt;border-right-width:3pt}
+
+  .printroot .kick{margin:0 0 3mm;text-align:center;font-family:'Barlow Condensed',Arial,sans-serif;
+    font-weight:700;font-size:10pt;letter-spacing:4pt;text-transform:uppercase;color:#9A7A22}
+  .printroot .forwho{margin:0 0 7mm;text-align:center;font-family:'Barlow Condensed',Arial,sans-serif;
+    font-weight:800;font-size:27pt;line-height:1.05;text-transform:uppercase;color:#12161d}
+  .printroot .tkbox{margin:0 0 7mm}
+  .printroot .tkbox .ticket{display:block;width:100%;height:auto}
+  .printroot .rule2{height:0.5pt;background:#D9BE70;margin:0 0 6mm}
+  .printroot .cols2{display:flex;gap:9mm;margin:0 0 6mm}
+  .printroot .cols2 > div{flex:1}
+  .printroot .sheetin h2{margin:0 0 2mm;font-family:'Barlow Condensed',Arial,sans-serif;font-weight:800;
+    font-size:11pt;letter-spacing:2pt;text-transform:uppercase;color:#9A7A22}
+  .printroot .sheetin p{margin:0;font-size:9.5pt;line-height:1.6;color:#3a414c}
+  .printroot .steps ol{margin:0;padding-left:5mm;font-size:9.5pt;line-height:1.75;color:#3a414c}
+  .printroot .foot{margin:6mm 0 0;text-align:center;font-size:8.5pt;color:#7b828d}
+
+  .panel{padding:clamp(24px,4vw,36px);background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.10)}
+  /* Same shape as the buttons on the landing and purchase pages: four of
+     them sit in a row here, so they take the lower end of that scale rather
+     than a different one. */
+  .cta{display:inline-flex;align-items:center;justify-content:center;
+    min-height:clamp(64px,8vw,72px);padding:0 clamp(20px,3vw,30px);
+    text-decoration:none;font-family:var(--cond);font-weight:800;
+    font-size:clamp(20px,3vw,26px);letter-spacing:.04em;text-transform:uppercase;
+    transition:background .3s,border-color .3s,transform .3s}
+  .cta.primary{background:var(--blue);color:#fff}
+  .cta.primary:hover{background:rgba(66,122,183,.5)}
+  .cta.ghost{background:rgba(10,20,34,.55);color:var(--text);
+    border:1px solid rgba(255,255,255,.5)}
+  .cta.ghost:hover{border-color:#fff;background:rgba(255,255,255,.06)}
+  .cta[disabled]{opacity:.55;cursor:default}
+  .spinner{width:26px;height:26px;border:2px solid rgba(168,206,240,.28);
+    border-top-color:var(--pale);border-radius:50%;animation:spin .9s linear infinite}
+  .notice{padding:22px 26px;background:rgba(66,122,183,.12);border:1px solid rgba(66,122,183,.45);
+    font-size:15px;font-weight:300;line-height:1.7;color:rgba(245,247,251,.88)}
+  footer{border-top:1px solid rgba(255,255,255,.10);margin-top:auto}
+  footer .inner{display:flex;flex-wrap:wrap;gap:20px;align-items:center;
+    justify-content:space-between;padding-top:26px;padding-bottom:26px;
+    font-size:13px;color:rgba(245,247,251,.55)}
+  footer a{text-decoration:none;color:rgba(245,247,251,.55)}
+  footer a:hover{color:var(--text)}
+
+  .langpick{display:flex;gap:6px;flex:0 0 auto}
+  .langpick button{min-height:44px;min-width:52px;padding:0 14px;cursor:pointer;
+    background:rgba(10,20,34,.55);color:rgba(245,247,251,.72);
+    border:1px solid rgba(255,255,255,.28);border-radius:0;
+    font-family:var(--cond);font-weight:800;font-size:17px;letter-spacing:.08em;
+    transition:background .2s,color .2s,border-color .2s}
+  .langpick button:hover{color:var(--text);border-color:rgba(255,255,255,.55)}
+  .langpick button[aria-pressed=true]{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .headrow{display:flex;align-items:center;justify-content:space-between;gap:16px}
+</style>
+<script src="i18n.js?v=20261119a"></script>
+<script src="analytics.js?v=20261119a" defer></script>
+<script src="ticket.js?v=20261119a"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+</head>
+<body data-page="thanks">
+
+<section class="hero">
+  <img class="bg kb" src="garage.jpg" alt="">
+  <div class="veil"></div>
+  <div class="fi wrap pad headrow" style="position:relative;padding-top:30px">
+    <a href="index.html" style="display:inline-flex"><img src="bpc-logo.svg" alt="Balaton Park Circuit" style="height:clamp(26px,4vw,30px);width:auto"></a>
+    <div id="langpick"></div>
+  </div>
+  <div class="wrap pad" style="position:relative;padding-bottom:clamp(32px,5vw,42px)">
+    <p class="eyebrow up"><i class="rule"></i><span id="eyebrow">Payment received</span></p>
+    <h1 class="up d1" id="headline">Your ticket is ready.</h1>
+  </div>
+</section>
+
+<main class="wrap pad" style="padding-top:clamp(32px,5vw,46px);padding-bottom:clamp(48px,8vw,84px)">
+  <div id="body"></div>
+</main>
+
+<footer>
+  <div class="inner wrap pad">
+    <a href="https://balatonpark.com" target="_blank" rel="noopener" style="display:inline-flex">
+      <img src="bpc-logo.svg" alt="Balaton Park Circuit" style="height:22px;width:auto;opacity:.75"></a>
+    <span style="display:flex;flex-wrap:wrap;gap:24px">
+      <a href="https://balatonpark.com" target="_blank" rel="noopener" data-i18n="foot.site">BalatonPark.com</a>
+      <a href="faq.html" data-i18n="foot.faq">FAQ</a>
+      <a href="https://www.balatonparkcircuit.com/tc" target="_blank" rel="noopener" data-i18n="foot.terms">Terms</a>
+      <a href="mailto:info@balatonparkcircuit.com" data-i18n="foot.contact">Contact us</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var API = 'https://hbosxvmprhzrheilwwfv.supabase.co/functions/v1';
+  var SITE = 'https://experience.balatonpark.com';
+  var orderId = new URLSearchParams(location.search).get('order') || '';
+  var body = document.getElementById('body');
+
+  i18n.apply();
+  i18n.mountSwitch(document.getElementById('langpick'));
+  // Redraw whatever is on screen when the language changes, rather than
+  // leaving half the page in the old one.
+  i18n.onChange(function () {
+    if (!last) return;
+    if (last.kind === 'fail') fail(last.text);
+    else if (last.kind === 'order') show(last.d);
+  });
+
+  var esc = function (s) { return String(s == null ? '' : s)
+    .replace(/[&<>"]/g, function (c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); };
+  var money = function (c) { return i18n.money(c); };
+  var day = function (s) { return i18n.formatDate(s); };
+  var t = function (k, v) { return i18n.t(k, v); };
+  var contactLink = function () {
+    return '<a href="mailto:info@balatonparkcircuit.com?subject=Ticket%20Order">' +
+           t('foot.contact') + '</a>';
+  };
+  var last = null;   // what was last rendered, so a language change can redraw it
+
+  if (!orderId) return fail(t('ty.noOrder'));
+
+  waiting(t('ty.confirming'));
+  poll(0);
+
+  // Stripe returns the buyer the instant the card clears, which is usually
+  // before the webhook has finished minting the ticket. Wait it out rather
+  // than telling someone who has just paid that nothing happened.
+  function poll(attempt) {
+    fetch(API + '/order-status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order_id: orderId })
+    }).then(function (r) {
+      return r.json().then(function (d) { return { ok: r.ok, d: d }; });
+    }).then(function (r) {
+      if (!r.ok) {
+        if (r.d.error === 'not_found' && attempt < 12) return retry(attempt);
+        throw new Error('lookup');
+      }
+      if (r.d.status === 'paid' || r.d.status === 'refunded') return show(r.d);
+      if (attempt < 12) return retry(attempt);
+      waiting(t('ty.slow'), true);
+    }).catch(function () {
+      if (attempt < 12) return retry(attempt);
+      fail(t('ty.unreachable'));
+    });
+  }
+  function retry(attempt) { setTimeout(function () { poll(attempt + 1); }, 1500); }
+
+  function waiting(text, done) {
+    body.innerHTML =
+      '<div class="panel up" style="display:flex;align-items:center;gap:18px">' +
+        (done ? '' : '<div class="spinner"></div>') +
+        '<p style="margin:0;font-size:16px;font-weight:300;line-height:1.7;color:rgba(245,247,251,.85)">' +
+          esc(text) + '</p></div>';
+  }
+
+  function fail(text) {
+    last = { kind: 'fail', text: text };
+    document.getElementById('eyebrow').textContent = t('ty.problemEyebrow');
+    document.getElementById('headline').textContent = t('ty.problemH');
+    body.innerHTML = '<div class="notice up">' + esc(text) + ' ' +
+      t('ty.contactFix', { contact: contactLink() }) + '</div>';
+  }
+
+  // Printing produces a proper sheet rather than a bare ticket: a frame, what
+  // this is, where the circuit is, and what to do next for someone who has
+  // only ever seen the website. No "from" and no message - the buyer is the
+  // person holding it.
+  function buildSheet(code) {
+    var hit = null;
+    allVouchers().forEach(function (v) { if (v.code === code) hit = v; });
+    if (!hit) return null;
+
+    var root = document.querySelector('.printroot');
+    if (!root) {
+      root = document.createElement('div');
+      root.className = 'printroot';
+      document.body.appendChild(root);
+    }
+
+    var title = hit.is_experience && hit.package ? hit.package : t('pr.title');
+
+    root.innerHTML =
+      '<div class="sheet">' +
+        '<div class="orn tl"></div><div class="orn tr"></div>' +
+        '<div class="orn bl"></div><div class="orn br"></div>' +
+        '<div class="sheetin">' +
+          '<p class="kick">' + esc(t('pr.kicker')) + '</p>' +
+          '<h1 class="forwho">' + esc(title) + '</h1>' +
+          '<div class="tkbox">' + ticketFor(hit) + '</div>' +
+          '<div class="rule2"></div>' +
+          '<div class="cols2">' +
+            '<div><h2>' + esc(t('pr.whatH')) + '</h2><p>' +
+              esc(hit.is_experience ? t('pr.whatExpP') : t('pr.whatP')) + '</p></div>' +
+            '<div><h2>' + esc(t('pr.whereH')) + '</h2><p>' + esc(t('pr.whereP')) + '</p></div>' +
+          '</div>' +
+          '<div class="steps">' +
+            '<h2>' + esc(t('pr.howH')) + '</h2>' +
+            '<ol><li>' + esc(t('pr.how1')) + '</li>' +
+                '<li>' + esc(t('pr.how2')) + '</li>' +
+                '<li>' + esc(t('pr.how3')) + '</li></ol>' +
+          '</div>' +
+          '<p class="foot">' + esc(t('pr.foot')) + '</p>' +
+        '</div>' +
+      '</div>';
+
+    return root;
+  }
+
+  function printTicket(code) {
+    var root = buildSheet(code);
+    if (!root) return;
+    var done = function () {
+      root.innerHTML = '';
+      window.removeEventListener('afterprint', done);
+    };
+    window.addEventListener('afterprint', done);
+    window.print();
+  }
+
+  // The same sheet, turned into a real A4 PDF the person can keep or send
+  // on. Rendering happens off-screen rather than in a print dialog, so the
+  // two libraries below only load when someone actually asks for a PDF.
+  var LIBS = {
+    h2c: 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+    pdf: 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
+  };
+
+  // A rasteriser turns the ticket into a standalone image, and a standalone
+  // image cannot reach the page's web fonts: the text inside it falls back to
+  // whatever the system has and comes out the wrong width, running over the
+  // QR square. So the fonts are fetched once and written into the SVG itself
+  // before it is rasterised. Only the PDF path needs this; printing uses the
+  // page's own fonts.
+  var TICKET_FONTS = [
+    { family: 'Barlow Condensed', weight: 700,
+      url: 'https://fonts.gstatic.com/s/barlowcondensed/v13/HTxwL3I-JCGChYJ8VI-L6OO_au7B47b1_3E.ttf' },
+    { family: 'JetBrains Mono', weight: 700,
+      url: 'https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8L6tjPQ.ttf' },
+    { family: 'Inter', weight: 600,
+      url: 'https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf' }
+  ];
+  var fontCss = null;
+  function embeddedFontCss() {
+    if (fontCss) return fontCss;
+    fontCss = Promise.all(TICKET_FONTS.map(function (f) {
+      return fetch(f.url).then(function (r) {
+        if (!r.ok) throw new Error('font ' + r.status);
+        return r.blob();
+      }).then(function (blob) {
+        return new Promise(function (ok, fail) {
+          var fr = new FileReader();
+          fr.onload = function () {
+            // Every weight of the family points at the one file we have, so a
+            // heading asking for 800 still gets the right typeface.
+            ok('@font-face{font-family:"' + f.family + '";font-style:normal;' +
+               'font-weight:100 900;src:url(' + fr.result + ') format("truetype");}');
+          };
+          fr.onerror = function () { fail(fr.error); };
+          fr.readAsDataURL(blob);
+        });
+      });
+    })).then(function (parts) { return parts.join(''); });
+    return fontCss;
+  }
+  var loaded = {};
+  function loadScript(src) {
+    if (loaded[src]) return loaded[src];
+    loaded[src] = new Promise(function (ok, fail) {
+      var el = document.createElement('script');
+      el.src = src;
+      el.onload = function () { ok(); };
+      el.onerror = function () { loaded[src] = null; fail(new Error('load ' + src)); };
+      document.head.appendChild(el);
+    });
+    return loaded[src];
+  }
+
+  var SVGNS = 'http://www.w3.org/2000/svg';
+
+  // Swap the sheet's inline ticket for a PNG of itself, drawn by the browser
+  // with the fonts written into the file so nothing has to be fetched while
+  // it rasterises.
+  function ticketToImage(root, css) {
+    var svg = root.querySelector('.sheet svg.ticket');
+    if (!svg) return Promise.resolve();
+
+    var clone = svg.cloneNode(true);
+    if (css) {
+      var st = document.createElementNS(SVGNS, 'style');
+      st.textContent = css;
+      clone.insertBefore(st, clone.firstChild);
+    }
+    var box = (svg.getAttribute('viewBox') || '0 0 1084 480').split(/\s+/);
+    var vw = Number(box[2]) || 1084, vh = Number(box[3]) || 480;
+    clone.setAttribute('width', vw);
+    clone.setAttribute('height', vh);
+
+    var xml = new XMLSerializer().serializeToString(clone);
+    // A data URL rather than a blob: nothing external is referenced, so the
+    // canvas stays untainted and toDataURL keeps working.
+    var src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(xml);
+
+    return new Promise(function (done) {
+      var img = new Image();
+      img.onload = function () {
+        try {
+          var w = 2168; // twice the ticket's own width, plenty for print
+          var c = document.createElement('canvas');
+          c.width = w;
+          c.height = Math.round(w * vh / vw);
+          c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+          var out = document.createElement('img');
+          out.src = c.toDataURL('image/png');
+          out.className = 'ticket';
+          out.style.cssText = 'display:block;width:100%;height:auto';
+          svg.parentNode.replaceChild(out, svg);
+        } catch (e) {
+          console.error('ticket raster failed', e);
+        }
+        done();
+      };
+      // Leaving the SVG in place is better than no sheet at all.
+      img.onerror = function () { done(); };
+      img.src = src;
+    });
+  }
+
+  function downloadSheet(code, btn) {
+    var label = btn ? btn.textContent : '';
+    if (btn) { btn.disabled = true; btn.textContent = t('ty.pdfWorking'); }
+
+    var root = buildSheet(code);
+    if (!root) { if (btn) { btn.disabled = false; btn.textContent = label; } return; }
+
+    // Visible to the renderer, out of the person's way. display:none would
+    // give html2canvas nothing to measure.
+    root.style.cssText = 'display:block;position:fixed;left:-10000px;top:0;z-index:-1';
+
+    var cleanup = function () {
+      root.style.cssText = '';
+      root.innerHTML = '';
+      if (btn) { btn.disabled = false; btn.textContent = label; }
+    };
+
+    Promise.all([loadScript(LIBS.h2c), loadScript(LIBS.pdf), embeddedFontCss()])
+      .then(function (out) {
+        // html2canvas rasterises an inline SVG itself, and it gets both the
+        // fonts and some of the geometry wrong - boxes drift off the text
+        // they belong to. The browser's own SVG renderer gets it exactly
+        // right, so the ticket becomes a PNG here and html2canvas is left
+        // with nothing harder than an <img>.
+        return ticketToImage(root, out[2]);
+      })
+      .then(function () {
+        return document.fonts && document.fonts.ready ? document.fonts.ready : null;
+      })
+      .then(function () {
+        return window.html2canvas(root.querySelector('.sheet'), {
+          scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false
+        });
+      })
+      .then(function (canvas) {
+        var JsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+        var doc = new JsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+        doc.addImage(canvas.toDataURL('image/jpeg', 0.94), 'JPEG', 0, 0, 210, 297);
+        doc.save('balaton-park-ticket-' + code + '.pdf');
+        cleanup();
+      })
+      .catch(function (e) {
+        console.error('pdf failed', e);
+        cleanup();
+        // Printing still works, and a browser can print to PDF itself.
+        printTicket(code);
+      });
+  }
+
+  // Every ticket on the order. There is one buyer and no receivers, so the
+  // gift site's per-receiver grouping collapses to a flat list.
+  function allVouchers() {
+    var d = last && last.d ? last.d : {};
+    if (d.gifts && d.gifts.length) {
+      return d.gifts.reduce(function (acc, g) {
+        return acc.concat(g.vouchers || []);
+      }, []);
+    }
+    return d.vouchers || [];
+  }
+
+  // The QR carries the register link with the code already in it, so scanning
+  // the printed ticket lands on the right page with nothing to type.
+  function qrFor(code) {
+    if (typeof qrcode !== 'function') return null;
+    try {
+      var q = qrcode(0, 'M');
+      q.addData(SITE + '/register.html?code=' + code);
+      q.make();
+      var n = q.getModuleCount(), out = [];
+      for (var r = 0; r < n; r++) {
+        for (var c = 0; c < n; c++) {
+          if (q.isDark(r, c)) {
+            out.push('<rect x="' + c + '" y="' + r + '" width="1.06" height="1.06" rx="0.2"/>');
+          }
+        }
+      }
+      return { rects: out.join(''), modules: n };
+    } catch (e) {
+      return null;                 // a ticket without its QR still works
+    }
+  }
+
+  // One ticket face, in the three shapes this shop sells: a count of
+  // sessions, the VIP day, or one place on an experience programme.
+  //
+  // fulfil_order gives every non-session package a sessions_total of 1, so
+  // the count alone cannot tell them apart - which is why order-status hands
+  // over ticket_mark and is_experience as well.
+  function ticketFor(v) {
+    var n = v.sessions_total || 1;
+    var vip = v.package_code === 'vip';
+    var exp = !!v.is_experience && !vip;
+    var qr = qrFor(v.code);
+    return bpcTicket({
+      code: v.code,
+      shortCode: String(v.code).replace(/^BPC-/, ''),
+      sessions: exp ? (v.ticket_mark || '') : (vip ? 'VIP' : n),
+      headline: exp ? String(v.package || '').toUpperCase()
+        : (vip ? t('tk.vipHeadline') : t('tk.headline' + (n > 1 ? 'Many' : 'One'), { n: n })),
+      sub: exp ? t('tk.expSub') : t('tk.sub'),
+      eyebrow: t('tk.eyebrow'),
+      codeLabel: t('tk.codeLabel'),
+      footnote: exp ? t('tk.expFootnote') : t('tk.footnote'),
+      admit: t('tk.admit'),
+      unit: exp ? t('tk.expUnit')
+        : (vip ? t('tk.vipUnit') : t(n > 1 ? 'common.sessionMany' : 'common.sessionOne').toUpperCase()),
+      each: exp ? t('tk.expEach') : (vip ? t('tk.vipEach') : t('tk.each')),
+      scanLabel: t('tk.scan'),
+      alt: v.package + ' ' + v.code,
+      qr: qr && qr.rects,
+      qrModules: qr && qr.modules
+    });
+  }
+
+  // Reported once per order. The key is kept in browser storage so a
+  // refresh of the confirmation page does not count the sale twice.
+  function reportSale(d) {
+    if (!d || d.status !== 'paid') return;
+    // analytics.js is deferred. If the order came back before it ran, wait
+    // for it rather than dropping the one event that actually matters.
+    if (!window.bpcTrack) {
+      document.addEventListener('DOMContentLoaded', function () { reportSale(d); });
+      return;
+    }
+    var key = 'bpc-reported-' + orderId;
+    try { if (localStorage.getItem(key)) return; localStorage.setItem(key, '1'); } catch (e) {}
+    window.bpcTrack('Purchase', {
+      value: Number(((d.total_cents || 0) / 100).toFixed(2)),
+      currency: 'EUR',
+      num_items: allVouchers().length || 1
+    });
+  }
+
+  function show(d) {
+    last = { kind: 'order', d: d };
+    reportSale(d);
+    document.getElementById('eyebrow').textContent = t('ty.eyebrow');
+
+    if (d.status === 'refunded') {
+      document.getElementById('eyebrow').textContent = t('ty.refundedEyebrow');
+      document.getElementById('headline').textContent = t('ty.refundedH');
+      body.innerHTML = '<div class="notice up">' +
+        t('ty.refundedBody', { contact: contactLink() }) + '</div>';
+      return;
+    }
+
+    var tickets = allVouchers();
+    document.getElementById('headline').textContent =
+      tickets.length > 1 ? t('ty.h1many') : t('ty.h1one');
+
+    // The ticket is the deliverable, so it is on screen before anything is
+    // said about email. Whether the copy has actually gone out is read from
+    // the email log rather than assumed.
+    var note = '<p class="tknote">' +
+      t(d.emailed ? 'ty.sent' : 'ty.pending',
+        { buyer: esc(d.buyer_email || '') }) + '</p>';
+
+    var blocks = tickets.map(function (v, i) {
+      return '<div class="tkblk up d' + Math.min(i + 1, 3) + '">' +
+        (i === 0 ? note : '') +
+        '<div class="tkwrap">' + ticketFor(v) + '</div>' +
+        '<div class="acts">' +
+          '<button type="button" class="cta primary lift print" data-code="' + esc(v.code) + '">' +
+            t('ty.print') + '</button>' +
+          '<button type="button" class="cta ghost lift pdf" data-code="' + esc(v.code) + '">' +
+            t('ty.pdf') + '</button>' +
+          '<button type="button" class="cta ghost lift copy" data-code="' + esc(v.code) + '">' +
+            t('common.copy') + '</button>' +
+          (v.is_experience ? '' :
+            '<a class="cta ghost lift" href="register.html?code=' + encodeURIComponent(v.code) + '">' +
+              t('ty.registerNow') + '</a>') +
+        '</div></div>';
+    }).join('');
+
+    body.innerHTML =
+      blocks +
+      '<div class="up d3" style="display:flex;flex-wrap:wrap;gap:14px;margin:40px 0 0">' +
+        '<a class="cta ghost lift" href="index.html">' + t('ty.buyAnother') + '</a>' +
+      '</div>' +
+      '<p class="up d3" style="margin:26px 0 0;font-size:13px;font-weight:300;line-height:1.7;' +
+        'color:rgba(245,247,251,.62)">' +
+        t('ty.paidOn', { amount: money(d.total_cents), date: esc(day(d.paid_at)),
+                         codes: tickets.length > 1 ? t('ty.codeMany') : t('ty.codeOne'),
+                         contact: contactLink() }) + '</p>' +
+      '<p class="up d3" style="margin:14px 0 0;font-size:13px;font-weight:300;line-height:1.7;' +
+        'color:rgba(245,247,251,.62)">' +
+        t(d.invoice_kind === 'szamla' ? 'ty.invoiceComing' : 'ty.receiptComing') + '</p>';
+  }
+
+  // Bound once on the container rather than per button, so it keeps working
+  // across every redraw: a language switch rebuilds all of this.
+  body.addEventListener('click', function (ev) {
+      var pr = ev.target.closest('.print');
+      if (pr) {
+        printTicket(pr.getAttribute('data-code'));
+        return;
+      }
+      var dl = ev.target.closest('.pdf');
+      if (dl) {
+        downloadSheet(dl.getAttribute('data-code'), dl);
+        return;
+      }
+      var btn = ev.target.closest('.copy');
+      if (!btn) return;
+      var done = function () {
+        btn.textContent = t('common.copied');
+        setTimeout(function () { btn.textContent = t('common.copy'); }, 2200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(btn.dataset.code)
+          .then(done, function () { btn.textContent = t('common.copyManual'); });
+      } else {
+        btn.textContent = t('common.copyManual');
+      }
+  });
+})();
+</script>
+</body>
+</html>

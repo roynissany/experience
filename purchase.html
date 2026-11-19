@@ -1,0 +1,1258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title data-i18n-title="buy.title">Buy a ticket - Balaton Park Circuit</title>
+<meta name="description" content="Buy your Balaton Park Circuit ticket. You get it straight away and pick your own track day.">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon.png?v=20261119">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:title" content="Book a day on track at Balaton Park Circuit">
+<meta property="og:description" content="Track sessions and driving experiences for the 2027 season.">
+<meta property="og:image" content="https://experience.balatonpark.com/og-share.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://hbosxvmprhzrheilwwfv.supabase.co" crossorigin>
+<script>
+  // The page cannot draw a single package without this, so it goes out now
+  // rather than after the stylesheet, the fonts and 900 lines of script.
+  window.__catalogue = fetch('https://hbosxvmprhzrheilwwfv.supabase.co/functions/v1/catalogue')
+    .then(function (r) { return r.json(); });
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap">
+<style>
+  :root { --ink:#0A1422; --blue:#427AB7; --pale:#A8CEF0; --text:#F5F7FB;
+          --gold:#C9A45C; --goldlo:rgba(201,164,92,.55);
+          --cond:'Barlow Condensed',sans-serif; }
+  *{box-sizing:border-box}
+  /* An inline display: beats the hidden attribute otherwise. */
+  [hidden]{display:none!important}
+  body { margin:0;touch-action:manipulation; background:var(--ink); color:var(--text);
+         font-family:Inter,-apple-system,system-ui,sans-serif;
+         -webkit-font-smoothing:antialiased; overflow-x:hidden }
+  a{color:var(--pale)} a:hover{color:var(--text)}
+  h1,h2,h3{font-family:var(--cond);font-weight:800;text-transform:uppercase;margin:0}
+  input,select,textarea,button{font-family:inherit}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes kenburns{from{transform:scale(1.05)}to{transform:scale(1.16)}}
+  @keyframes rule{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .up{animation:fadeUp .95s cubic-bezier(.22,.61,.36,1) both}
+  .fi{animation:fadeIn 1.3s ease both}
+  .d1{animation-delay:.12s} .d2{animation-delay:.24s}
+  .kb{animation:kenburns 28s ease-out both alternate infinite}
+  .rule{transform-origin:left;animation:rule .8s cubic-bezier(.22,.61,.36,1) both}
+  .lift{transition:transform .35s cubic-bezier(.22,.61,.36,1),background .25s,border-color .25s,box-shadow .35s}
+  .lift:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(0,0,0,.42)}
+  .zw{overflow:hidden} .zw img{transition:transform .9s cubic-bezier(.22,.61,.36,1);display:block}
+  .zw:hover img{transform:scale(1.06)}
+  @media (prefers-reduced-motion: reduce){
+    .up,.fi,.kb,.rule{animation:none!important;opacity:1!important;transform:none!important}
+    .lift,.zw img{transition:none!important}
+  }
+
+  .pad{padding-left:clamp(20px,5vw,56px);padding-right:clamp(20px,5vw,56px)}
+  .wrap{width:100%;max-width:1240px;margin:0 auto}
+
+  .hero{position:relative;min-height:clamp(230px,34vw,300px);display:flex;
+        flex-direction:column;justify-content:space-between;overflow:hidden}
+  .hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero .veil{position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(10,20,34,.70) 0%,rgba(10,20,34,.40) 40%,rgba(10,20,34,.97) 100%)}
+  h1{font-size:clamp(36px,7vw,62px);line-height:.96}
+  .eyebrow{display:flex;align-items:center;gap:14px;margin:0 0 16px;font-size:12px;
+    font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:rgba(245,247,251,.85)}
+  .eyebrow i{display:inline-block;width:40px;height:2px;background:var(--blue)}
+  /* The Hungarian step line is far longer than the English one. On a phone it
+     wrapped to two lines and ran up under the language buttons, so it gets
+     tighter tracking and the header row gets a gap that cannot be absorbed. */
+  @media (max-width:760px){
+    .headrow{margin-bottom:26px}
+    .eyebrow{font-size:11px;letter-spacing:.12em;gap:10px}
+    .eyebrow i{width:24px}
+  }
+
+  .cols{display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,52px);align-items:flex-start}
+  .main{flex:999 1 560px;min-width:0}
+  h2.sec{display:flex;align-items:center;gap:14px;margin:48px 0 22px;font-size:12px;
+    font-weight:600;letter-spacing:.22em;color:rgba(245,247,251,.72)}
+  h2.sec i{display:inline-block;width:28px;height:2px;background:var(--blue)}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+  .card{position:relative;display:flex;flex-direction:column;align-items:flex-start;min-height:172px;
+    padding:22px;cursor:pointer;text-align:left;color:var(--text);
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.10)}
+
+  /* The "i" sits inside a button, so it is a span rather than a nested
+     button, and it swallows the click so it never toggles the package. */
+  .info{position:absolute;top:10px;right:10px;z-index:2;
+    display:grid;place-items:center;width:26px;height:26px;border-radius:50%;
+    border:1px solid rgba(255,255,255,.34);background:rgba(10,20,34,.45);
+    font-family:var(--cond);font-weight:800;font-size:15px;line-height:1;
+    color:rgba(245,247,251,.78);cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+  .info:hover,.info:focus-visible{background:var(--blue);border-color:var(--blue);color:#fff;outline:none}
+  #tip{position:fixed;z-index:60;max-width:290px;padding:16px 18px;
+    background:#16293F;border:1px solid var(--blue);
+    font-size:13px;font-weight:300;line-height:1.6;color:var(--text);
+    box-shadow:0 18px 44px rgba(0,0,0,.5)}
+  #tip b{display:block;margin-bottom:6px;font-family:var(--cond);font-weight:800;
+    font-size:16px;letter-spacing:.04em;text-transform:uppercase;color:var(--pale)}
+  .card[aria-pressed=true]{background:#16293F;border:2px solid var(--blue)}
+  .card .big{font-family:var(--cond);font-weight:800;font-size:clamp(40px,7vw,50px);line-height:.86;text-transform:uppercase}
+  .card .kind{margin-top:8px;font-size:11px;font-weight:600;letter-spacing:.18em;
+    text-transform:uppercase;color:rgba(245,247,251,.60)}
+  .card .prices{display:flex;flex-wrap:wrap;align-items:baseline;gap:9px;margin-top:20px}
+  .card .now{font-family:var(--cond);font-weight:800;font-size:28px;color:var(--pale)}
+  .card .was{font-family:var(--cond);font-weight:700;font-size:20px;
+    color:rgba(245,247,251,.45);text-decoration:line-through}
+  .card .off{margin-top:7px;font-size:10px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--pale)}
+
+  /* The VIP day is the one package sold as a day rather than as a count of
+     sessions, so it runs across the row on its own instead of sitting as a
+     fourth tile with a hole beside it. Gold, because that is what it is. */
+  .vip{position:relative;display:block;width:100%;margin-top:14px;padding:0;
+    overflow:hidden;cursor:pointer;text-align:left;color:var(--text);
+    background:#0D1A2B;border:1px solid var(--goldlo);
+    transition:border-color .25s,box-shadow .25s}
+  .vip:hover{border-color:var(--gold)}
+  .vip[aria-pressed=true]{border:2px solid var(--gold);
+    box-shadow:inset 0 0 0 1px rgba(201,164,92,.22)}
+  .vip .shot{position:absolute;inset:0;overflow:hidden}
+  .vip .shot img{width:100%;height:100%;object-fit:cover;object-position:50% 46%}
+  /* Dark enough on the left for the wording to sit on it at any width, and
+     easing off to the right so the pit lane is still readable as one. The
+     middle stays heavy because that is where the body copy lands. */
+  .vip .veil{position:absolute;inset:0;background:
+    linear-gradient(90deg,rgba(8,14,24,.95) 0%,rgba(8,14,24,.90) 52%,rgba(8,14,24,.60) 100%)}
+  .vip .body{position:relative;display:flex;flex-wrap:wrap;align-items:center;
+    gap:clamp(14px,2.6vw,30px);min-height:clamp(148px,19vw,176px);
+    padding:clamp(20px,3.2vw,28px)}
+  .vip .face{flex:0 0 auto}
+  .vip .big{display:block;font-family:var(--cond);font-weight:800;
+    font-size:clamp(38px,6.4vw,50px);line-height:.86;letter-spacing:.02em;
+    text-transform:uppercase;color:var(--gold)}
+  .vip .kind{display:block;margin-top:7px;font-size:11px;font-weight:600;
+    letter-spacing:.18em;text-transform:uppercase;color:rgba(201,164,92,.78)}
+  .vip .what{flex:1 1 230px;min-width:0;margin:0;font-size:13.5px;font-weight:300;
+    line-height:1.65;color:rgba(245,247,251,.80)}
+  .vip .prices{flex:0 0 auto;display:flex;flex-wrap:wrap;align-items:baseline;gap:9px}
+  .vip .now{font-family:var(--cond);font-weight:800;font-size:30px;color:var(--gold)}
+  .vip .was{font-family:var(--cond);font-weight:700;font-size:20px;
+    color:rgba(245,247,251,.45);text-decoration:line-through}
+  .vip .off{flex:0 0 auto;font-size:10px;font-weight:600;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--gold)}
+  .vip .info{border-color:rgba(201,164,92,.50)}
+  .vip .info:hover,.vip .info:focus-visible{background:var(--gold);border-color:var(--gold);
+    color:#0A1422}
+  /* Experiences are bought by the place, not by the session, and there are
+     eleven of them. Big tiles would bury the session picker above, so they
+     are a plain list of names and prices. */
+  .xps{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));
+    gap:10px;margin-top:4px}
+  .xp{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    min-height:64px;padding:12px 14px;cursor:pointer;text-align:left;
+    color:var(--text);background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.12);
+    transition:border-color .25s,background .25s}
+  .xp:hover{border-color:rgba(168,206,240,.55)}
+  .xp[aria-pressed=true]{border-color:var(--pale);background:rgba(66,122,183,.16)}
+  .xp .xname{min-width:0;font-size:14px;font-weight:400;line-height:1.35}
+  .xp .prices{flex:0 0 auto;display:flex;flex-direction:column;align-items:flex-end}
+  .xp .now{font-family:var(--cond);font-weight:800;font-size:21px;line-height:1}
+  .xp .was{font-family:var(--cond);font-weight:700;font-size:13px;
+    color:rgba(245,247,251,.45);text-decoration:line-through}
+  .xp .off{display:none}
+
+  /* On a phone the wording wraps across the whole banner rather than keeping
+     to the dark left end, so the wash goes flat and heavier instead. */
+  @media (max-width:640px){
+    .vip .veil{background:linear-gradient(180deg,rgba(8,14,24,.92) 0%,
+      rgba(8,14,24,.88) 58%,rgba(8,14,24,.82) 100%)}
+  }
+
+  label.f{display:block;font-size:13px;font-weight:500;color:rgba(245,247,251,.72);margin-bottom:8px}
+  /* 16px is not a taste choice: iOS Safari zooms the whole page in when a
+     field smaller than that takes focus, and the page can then be panned
+     sideways. Keeping every field at 16px is what stops that. */
+  .fld{width:100%;height:50px;padding:0 14px;background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.16);color:var(--text);font-size:16px;
+    transition:border-color .25s,background .25s}
+  .fld:focus{outline:none;border-color:var(--blue);background:rgba(66,122,183,.10)}
+  .fld[aria-invalid=true]{border-color:#D9604F}
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+
+  /* Wide enough for Stripe to lay the payment methods out side by side
+     rather than folding the extras into a dropdown. */
+  aside{flex:1 1 420px;position:sticky;top:24px;margin-top:38px;padding:30px;
+    background:rgba(10,20,34,.96);border:1px solid rgba(255,255,255,.14)}
+  @media (max-width:900px){ aside{position:static;margin-top:8px;padding:22px 18px} }
+  .line{padding:16px 0;border-bottom:1px solid rgba(255,255,255,.10)}
+  .line .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .step{width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.20);
+    color:var(--text);font-size:17px;line-height:1;cursor:pointer}
+  .nudge{display:flex;align-items:center;gap:9px;width:100%;margin:11px 0 0;
+    min-height:44px;padding:9px 13px;background:rgba(66,122,183,.16);
+    border:1px dashed var(--blue);color:var(--pale);font-size:13px;font-weight:500;
+    text-align:left;cursor:pointer}
+  .pay{width:100%;min-height:58px;background:var(--blue);color:#fff;border:none;
+    font-family:var(--cond);font-weight:800;font-size:22px;letter-spacing:.04em;
+    text-transform:uppercase;cursor:pointer}
+  .pay:disabled{opacity:.5;cursor:default}
+  /* Apple Pay selected: the mark instead of the words, on the house blue.
+     Both labels live in the button and only visibility moves, so the box
+     never changes size when the buyer switches tab. */
+  .pay{display:flex;align-items:center;justify-content:center}
+  /* Apple Pay is only ever offered on Apple hardware, so -apple-system
+     resolves to SF there and the word matches the real button. */
+  .pay .pay-apple{display:none;align-items:center;
+    font-family:-apple-system,system-ui,'Helvetica Neue',sans-serif;
+    font-weight:600;font-size:23px;letter-spacing:0;text-transform:none}
+  .pay .pay-apple svg{height:.88em;width:auto;fill:#fff;margin-right:2px;
+    /* The leaf pushes the glyph's box above the cap height beside it. */
+    position:relative;top:-.05em}
+  .pay.applepay .pay-apple{display:flex}
+  .pay.applepay .pay-label{display:none}
+  .err{margin:0 0 16px;padding:11px 13px;background:rgba(217,96,79,.13);
+    border:1px solid rgba(217,96,79,.3);color:#F0A99D;font-size:13px;line-height:1.5}
+  .err[hidden]{display:none}
+
+  /* Six one-tap answers read faster on a phone than a select, and leave
+     nothing to type. */
+  .langchoice{display:flex;gap:10px;flex-wrap:wrap}
+  .langchoice .lng{min-height:48px;padding:0 20px;cursor:pointer;
+    background:rgba(255,255,255,.04);color:rgba(245,247,251,.72);
+    border:1px solid rgba(255,255,255,.22);border-radius:0;
+    font-family:Inter,sans-serif;font-size:15px;font-weight:500;
+    transition:background .2s,color .2s,border-color .2s}
+  .langchoice .lng:hover{color:var(--text);border-color:rgba(255,255,255,.45)}
+  .langchoice .lng[aria-pressed=true]{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .heard{margin:28px 0 0}
+  .heard .f{display:block;margin:0 0 11px}
+  .heard .opt{font-weight:400;text-transform:none;letter-spacing:0;
+    color:rgba(245,247,251,.45)}
+  .heard .lng{min-height:44px;padding:0 15px;font-size:14px}
+
+  .wantinv{display:flex;align-items:center;gap:12px;margin:24px 0 0;cursor:pointer;
+    font-size:15px;font-weight:300;color:rgba(245,247,251,.86)}
+  .wantinv input{width:20px;height:20px;flex:0 0 auto;accent-color:var(--blue);cursor:pointer}
+  #invfields{margin-top:18px}
+
+  .langpick{display:flex;gap:6px;flex:0 0 auto}
+  .langpick button{min-height:44px;min-width:52px;padding:0 14px;cursor:pointer;
+    background:rgba(10,20,34,.55);color:rgba(245,247,251,.72);
+    border:1px solid rgba(255,255,255,.28);border-radius:0;
+    font-family:var(--cond);font-weight:800;font-size:17px;letter-spacing:.08em;
+    transition:background .2s,color .2s,border-color .2s}
+  .langpick button:hover{color:var(--text);border-color:rgba(255,255,255,.55)}
+  .langpick button[aria-pressed=true]{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .headrow{display:flex;align-items:center;justify-content:space-between;gap:16px}
+</style>
+<script src="i18n.js?v=20261119a"></script>
+<script src="analytics.js?v=20261119a" defer></script>
+</head>
+<body data-page="purchase">
+
+<div style="min-height:100%;display:flex;flex-direction:column">
+
+  <section class="hero">
+    <img class="bg kb" src="purchase-hero.jpg" alt="A car on track at Balaton Park Circuit">
+    <div class="veil"></div>
+    <div class="fi wrap pad headrow" style="position:relative;padding-top:30px">
+      <a href="index.html" style="display:inline-flex"><img src="bpc-logo.svg" alt="Balaton Park Circuit" style="height:clamp(24px,4vw,30px);width:auto"></a>
+      <div id="langpick"></div>
+    </div>
+    <div class="wrap pad" style="position:relative;padding-bottom:40px">
+      <p class="eyebrow up"><i class="rule"></i><span data-i18n="buy.eyebrow">Step 1 of 2 · Choose &amp; pay</span></p>
+      <h1 class="up d1"><span data-i18n="buy.h1a">Book a session.</span> <span style="color:var(--pale)" data-i18n="buy.h1b">Or an experience.</span></h1>
+    </div>
+  </section>
+
+  <main class="wrap pad" style="flex-grow:1;padding-top:44px;padding-bottom:84px">
+    <p class="up" data-i18n="buy.lede" style="margin:0 0 48px;font-size:17px;font-weight:300;color:rgba(245,247,251,.72)">Pick one package or several - they add up in the summary. Your ticket is issued the moment payment clears, and you pick your track day afterwards.</p>
+
+    <form id="buy" class="cols" novalidate>
+
+      <div class="main">
+        <p class="up" id="smallprint" style="margin:0 0 34px;font-size:13px;font-weight:300;line-height:1.75;color:rgba(245,247,251,.62)"></p>
+
+        <!-- One basket. There is no receiver on this site: the buyer is the
+             person who will be driving, so the whole block that asked who it
+             was for, in which language, and when to send it is gone. The
+             volume ladder still counts sessions across everything here. -->
+        <div id="basket"></div>
+
+        <h2 class="sec up"><i></i><span data-i18n="buy.secYou">2 · Your details</span></h2>
+        <div class="grid2">
+          <div>
+            <label class="f" for="bname" data-i18n="buy.bname">Your name</label>
+            <input id="bname" class="fld" type="text" autocomplete="name">
+          </div>
+          <div>
+            <label class="f" for="bemail" data-i18n="buy.bemail">Your email</label>
+            <input id="bemail" class="fld" type="email" required autocomplete="email">
+          </div>
+        </div>
+        <p style="margin:12px 0 0;font-size:13px;font-weight:300;line-height:1.6;
+                  color:rgba(245,247,251,.62)" data-i18n="buy.emailNote">
+          Your ticket and your receipt both go to this address.
+        </p>
+
+        <!-- Most private buyers want no paperwork, and Hungarian law lets a
+             consumer sale close on a receipt that needs no personal details
+             at all. Only someone who ticks this is asked for an address, and
+             only then is one stored. -->
+        <label class="wantinv">
+          <input type="checkbox" id="wantinv">
+          <span data-i18n="buy.wantInvoice">I need a company invoice</span>
+        </label>
+        <div id="invfields" class="grid2" hidden>
+          <div style="grid-column:1/-1">
+            <label class="f" for="invname" data-i18n="buy.invName">Company name</label>
+            <input id="invname" class="fld" type="text" autocomplete="organization">
+          </div>
+          <div>
+            <label class="f" for="invtax" data-i18n="buy.invTax">Tax number</label>
+            <input id="invtax" class="fld" type="text" placeholder="12345678-2-41">
+          </div>
+          <div>
+            <label class="f" for="invcountry" data-i18n="buy.invCountry">Country</label>
+            <input id="invcountry" class="fld" type="text" autocomplete="country-name">
+          </div>
+          <div>
+            <label class="f" for="invpost" data-i18n="buy.invPost">Postcode</label>
+            <input id="invpost" class="fld" type="text" autocomplete="postal-code">
+          </div>
+          <div>
+            <label class="f" for="invcity" data-i18n="buy.invCity">City</label>
+            <input id="invcity" class="fld" type="text" autocomplete="address-level2">
+          </div>
+          <div style="grid-column:1/-1">
+            <label class="f" for="invaddr" data-i18n="buy.invAddr">Street and number</label>
+            <input id="invaddr" class="fld" type="text" autocomplete="street-address">
+          </div>
+          <p style="grid-column:1/-1;margin:0;font-size:13px;font-weight:300;line-height:1.6;
+                    color:rgba(245,247,251,.62)" data-i18n="buy.invNote">
+            Without this you get a receipt, which is all a private buyer needs.
+          </p>
+        </div>
+
+        <!-- Optional by design. A marketing question must never stand
+             between someone and paying, so nothing here validates, nothing
+             blocks, and a second tap clears a wrong answer. -->
+        <div class="heard">
+          <span class="f" id="heardLabel"><span data-i18n="buy.heard">Where did you hear about us?</span>
+            <span class="opt" data-i18n="buy.heardOpt">(optional)</span></span>
+          <div class="langchoice" id="heardPick" role="group" aria-labelledby="heardLabel"></div>
+        </div>
+      </div>
+
+      <aside class="up d2">
+        <h2 style="margin:0 0 22px;font-size:30px;line-height:1" data-i18n="buy.summary">Summary</h2>
+        <p class="err" id="err" hidden></p>
+        <div id="lines"></div>
+        <div id="saving" hidden style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:16px 0 0">
+          <span style="font-size:14px;font-weight:500;color:var(--pale)" data-i18n="buy.save">You save</span>
+          <span style="font-size:16px;font-weight:600;color:var(--pale)" id="savingAmt"></span>
+        </div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:22px 0 26px">
+          <span style="font-family:var(--cond);font-weight:800;font-size:24px;text-transform:uppercase" data-i18n="buy.total">Total</span>
+          <span style="font-family:var(--cond);font-weight:800;font-size:40px;line-height:1;color:var(--pale)" id="total">€0</span>
+        </div>
+        <div id="payment" style="margin-bottom:20px"></div>
+        <button type="submit" class="pay lift" id="pay"><span class="pay-apple" aria-hidden="true"><svg viewBox="0 0 170 170" focusable="false"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.197-2.12-9.973-3.17-14.34-3.17-4.58 0-9.492 1.05-14.746 3.17-5.262 2.13-9.501 3.24-12.742 3.35-4.929.21-9.837-1.96-14.724-6.52-3.13-2.73-7.045-7.41-11.735-14.04-5.032-7.08-9.169-15.29-12.41-24.65-3.471-10.11-5.211-19.9-5.211-29.378 0-10.857 2.346-20.221 7.045-28.068 3.693-6.303 8.606-11.275 14.755-14.925s12.793-5.51 19.948-5.629c3.915 0 9.049 1.211 15.429 3.591 6.362 2.388 10.447 3.599 12.238 3.599 1.339 0 5.877-1.416 13.57-4.239 7.275-2.618 13.415-3.702 18.445-3.275 13.63 1.1 23.87 6.473 30.68 16.153-12.19 7.386-18.22 17.731-18.1 31.002.11 10.337 3.86 18.939 11.23 25.769 3.34 3.17 7.07 5.62 11.22 7.36-.9 2.61-1.85 5.11-2.86 7.51zM119.11 7.24c0 8.102-2.96 15.667-8.86 22.669-7.12 8.324-15.732 13.134-25.071 12.375a25.222 25.222 0 0 1-.188-3.07c0-7.778 3.386-16.1 9.399-22.901 3.002-3.446 6.82-6.311 11.45-8.597 4.62-2.263 8.99-3.514 13.1-3.722.12 1.083.17 2.166.17 3.246z"/></svg>Pay</span><span class="pay-label" data-i18n="buy.pay">Pay with card</span></button>
+
+        <p style="margin:16px 0 0;font-size:12px;font-weight:300;line-height:1.7;color:rgba(245,247,251,.60)">
+          <span data-i18n="buy.noCard">We never see your card details.</span><br>
+          <span data-i18n="buy.codeOne">Your ticket is issued the moment payment clears.</span><br>
+          <span id="refundLine"></span></p>
+        <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.10)">
+          <p id="haveLine" style="margin:0;font-size:13px;font-weight:300;line-height:1.6;color:rgba(245,247,251,.72)"></p>
+          <p id="changeLine" style="margin:12px 0 0;font-size:12px;font-weight:300;line-height:1.65;color:rgba(245,247,251,.55)"></p>
+          <p style="margin:12px 0 0;font-size:12px;font-weight:300">
+            <a href="faq.html" data-i18n="buy.faqLink">Questions? Read the FAQ</a></p>
+        </div>
+      </aside>
+
+    </form>
+  </main>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var API = 'https://hbosxvmprhzrheilwwfv.supabase.co/functions/v1';
+  // Which shop this is. checkout stores it on the order, and the emails and
+  // the ticket footer read it back, so a self-purchase never points anyone
+  // at the gift site.
+  var CHANNEL = 'self';
+
+  var $ = function (s) { return document.querySelector(s); };
+  var el = function (t, c, h) { var n = document.createElement(t);
+    if (c) n.className = c; if (h !== undefined) n.innerHTML = h; return n; };
+  var esc = function (s) { return String(s == null ? '' : s)
+    .replace(/[&<>"]/g, function (c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); };
+  var money = function (cents) { return i18n.money(cents); };
+  var t = function (k, v) { return i18n.t(k, v); };
+  var link = function (href, label, blank) {
+    return '<a href="' + href + '"' + (blank ? ' target="_blank" rel="noopener"' : '') +
+           '>' + label + '</a>';
+  };
+
+  // Shape of each package card's headline number.
+  var FACE = {
+    s1:  { big: '1',    kind: 'buy.kindSession' },
+    s3:  { big: '3',    kind: 'buy.kindSessions' },
+    s6:  { big: '6',    kind: 'buy.kindSessions' },
+    vip: { big: 'VIP',  kind: 'buy.kindDay' }
+  };
+
+  var cat = null;            // catalogue from the server
+
+  // One basket, because the buyer is the attendee. qty holds how many of each
+  // package; cardFor remembers which element draws each one so draw() can
+  // patch rather than rebuild - rebuilding restarts the entrance animation on
+  // every card, which reads as a flash.
+  var basket = { qty: {}, cardFor: {}, el: null };
+
+  // The basket total as last drawn, in cents. Only used for reporting.
+  var lastTotal = 0;
+
+  // Only read when the box is ticked: an untouched form stores nothing.
+  function invoiceDetails() {
+    var want = document.getElementById('wantinv');
+    if (!want || !want.checked) return null;
+    var v = function (id) {
+      var e = document.getElementById(id);
+      return e ? e.value.trim() : '';
+    };
+    return {
+      kind: 'szamla',
+      name: v('invname'),
+      tax_number: v('invtax'),
+      country: v('invcountry'),
+      postcode: v('invpost'),
+      city: v('invcity'),
+      address: v('invaddr')
+    };
+  }
+
+  // The ladder counts sessions in the basket, not tickets. The 3- and
+  // 6-session prices already carry their own discount; this is the deeper
+  // tier you can only reach by combining. Shown here, enforced server-side.
+  function sessionsInBasket() {
+    return cat.packages.reduce(function (n, p) {
+      return n + (p.splittable ? (p.session_count || 0) * (basket.qty[p.code] || 0) : 0);
+    }, 0);
+  }
+  // The tier states the price of a session outright. percent is only the
+  // figure on the badge, so 58 a session can be shown as 10% without the
+  // arithmetic and the rounding having to agree.
+  function tierFor(sessions) {
+    var hit = null;
+    (cat.tiers || []).forEach(function (t) { if (sessions >= t.min_sessions) hit = t; });
+    return hit;
+  }
+  function nextTier(sessions) {
+    var up = (cat.tiers || []).filter(function (t) { return t.min_sessions > sessions; })
+      .sort(function (a, b) { return a.min_sessions - b.min_sessions; });
+    return up.length ? up[0] : null;
+  }
+  // Package names live in the database in English, so the basket showed
+  // "1 session" and "VIP Day" on the Hungarian site. The catalogue's name is
+  // the fallback for anything added to the database later.
+  function pkgName(p) {
+    var k = 'pkg.' + p.code + '.name';
+    var s = t(k);
+    return s === k ? p.name : s;
+  }
+
+  // Whether the tier reaches this package at all. in_ladder is a column on
+  // packages; a catalogue old enough not to carry it means "yes", which is
+  // what it was for every package before the Tour and the open vouchers
+  // were taken out.
+  function laddered(p, sessions) {
+    return p.in_ladder === false ? null : tierFor(sessions);
+  }
+  // What one ticket of this package costs right now. The arithmetic here has
+  // to match checkout's exactly - checkout is what the buyer is actually
+  // charged, and a page that disagrees with it is worse than a page with no
+  // prices on it.
+  function unitFor(p, sessions) {
+    var tier = laddered(p, sessions);
+    if (!tier) return p.price_cents;
+    if (p.splittable && tier.unit_cents) return tier.unit_cents * (p.session_count || 1);
+    // Not sold by the session, so the tier's percentage comes off its own
+    // price, rounded to whole euros.
+    if (!p.splittable && tier.percent) {
+      return Math.round(p.price_cents * (100 - tier.percent) / 10000) * 100;
+    }
+    return p.price_cents;
+  }
+  // What the badge says, which is the tier's stated figure rather than one
+  // worked back out of the price.
+  function pctFor(p, sessions, list, now) {
+    var tier = laddered(p, sessions);
+    if (tier && ((p.splittable && tier.unit_cents) || (!p.splittable && tier.percent))) {
+      return tier.percent;
+    }
+    return list > now ? Math.round((1 - now / list) * 100) : 0;
+  }
+
+  // ------------------------------------------------------------ render
+
+  function buildBasket() {
+    var wrap = el('div', 'basket');
+    basket.el = wrap;
+
+    var h1 = el('h2', 'sec up', '<i class="rule"></i><span data-i18n="buy.secPackages">' +
+      esc(t('buy.secPackages')) + '</span>');
+    h1.style.marginTop = '14px';
+    wrap.append(h1);
+
+    var cards = el('div', 'cards');
+    wrap.append(cards);
+    cat.packages.filter(function (p) {
+      return !p.includes_room && p.code !== 'vip' && !p.is_experience;
+    }).forEach(function (p) {
+      var face = FACE[p.code] || { big: String(p.session_count || ''), kind: 'buy.kindSessions' };
+      var b = el('button', 'card lift');
+      b.type = 'button';
+      b.innerHTML =
+        '<span class="info" role="button" tabindex="0" data-tip="' + esc(p.code) + '"' +
+          ' aria-label="' + esc(t('buy.whatsThis')) + '">i</span>' +
+        '<span class="big">' + esc(face.big) + '</span>' +
+        '<span class="kind" data-i18n="' + face.kind + '">' + t(face.kind) + '</span>' +
+        '<span class="prices"><span class="now"></span><span class="was" hidden></span></span>' +
+        '<span class="off" hidden></span>';
+      b.addEventListener('click', function (ev) {
+        if (ev.target.closest('.info')) return;   // the "i" is not a buy click
+        toggle(p.code);
+      });
+      basket.cardFor[p.code] = b;
+      cards.append(b);
+    });
+
+    // The VIP day, across the row under the session tiles. Same classes for
+    // the price parts, so paintCards drives it without knowing it is here.
+    var vipPkg = cat.packages.filter(function (p) { return p.code === 'vip'; })[0];
+    if (vipPkg) {
+      var v = el('button', 'vip lift');
+      v.type = 'button';
+      v.innerHTML =
+        '<span class="shot"><img src="vip-box.jpg" alt="" loading="lazy"></span>' +
+        '<span class="veil"></span>' +
+        '<span class="info" role="button" tabindex="0" data-tip="vip"' +
+          ' aria-label="' + esc(t('buy.whatsThis')) + '">i</span>' +
+        '<span class="body">' +
+          '<span class="face">' +
+            '<span class="big">VIP</span>' +
+            '<span class="kind" data-i18n="buy.kindDay">' + esc(t('buy.kindDay')) + '</span>' +
+          '</span>' +
+          '<span class="what" data-i18n="pkg.vip.body">' + esc(t('pkg.vip.body')) + '</span>' +
+          '<span class="prices"><span class="now"></span><span class="was" hidden></span></span>' +
+          '<span class="off" hidden></span>' +
+        '</span>';
+      v.addEventListener('click', function (ev) {
+        if (ev.target.closest('.info')) return;
+        toggle(vipPkg.code);
+      });
+      basket.cardFor[vipPkg.code] = v;
+      wrap.append(v);
+    }
+
+    // Experiences: one place on one programme. Same basket, same summary,
+    // same checkout - they differ only in carrying no session count.
+    var xps = cat.packages.filter(function (p) { return p.is_experience; });
+    if (xps.length) {
+      wrap.append(el('h2', 'sec',
+        '<i></i><span data-i18n="buy.secExp">' + esc(t('buy.secExp')) + '</span>'));
+      var xg = el('div', 'xps');
+      xps.forEach(function (p) {
+        var b = el('button', 'xp lift');
+        b.type = 'button';
+        b.setAttribute('aria-pressed', 'false');
+        b.innerHTML =
+          '<span class="xname" data-i18n="pkg.' + p.code + '.name">' +
+            esc(pkgName(p)) + '</span>' +
+          '<span class="prices"><span class="now"></span>' +
+            '<span class="was" hidden></span></span>' +
+          '<span class="off" hidden></span>';
+        b.addEventListener('click', function () { toggle(p.code); });
+        basket.cardFor[p.code] = b;
+        xg.append(b);
+      });
+      wrap.append(xg);
+    }
+
+    return wrap;
+  }
+
+  function paintCards() {
+    var sessions = sessionsInBasket();
+    cat.packages.forEach(function (p) {
+      var card = basket.cardFor[p.code];
+      if (!card) return;
+      var n = basket.qty[p.code] || 0;
+      var list = p.list_price_cents || p.price_cents;
+      // A card shows what it costs to add, so an unselected one is priced
+      // at the tier its own sessions would reach.
+      var reach = sessions + (n || !p.splittable ? 0 : (p.session_count || 0));
+      var now = unitFor(p, reach);
+      var pct = pctFor(p, reach, list, now);
+
+      card.setAttribute('aria-pressed', n > 0 ? 'true' : 'false');
+      card.querySelector('.now').textContent = money(now);
+      var w = card.querySelector('.was');
+      w.hidden = !pct;
+      w.textContent = money(list);
+      var off = card.querySelector('.off');
+      off.hidden = !pct;
+      off.textContent = pct ? t('buy.off', { pct: pct }) : '';
+    });
+  }
+
+  function renderSummary() {
+    var host = $('#lines');
+    host.replaceChildren();
+
+    var sessions = sessionsInBasket();
+    var gross = 0, total = 0;
+    var rows = [];
+
+    cat.packages.forEach(function (p) {
+      var n = basket.qty[p.code] || 0;
+      if (!n) return;
+      var list = p.list_price_cents || p.price_cents;
+      var unit = unitFor(p, sessions);
+      gross += list * n; total += unit * n;
+      rows.push({ p: p, n: n, list: list, unit: unit, was: list * n, line: unit * n });
+    });
+
+    if (!rows.length) {
+      host.append(el('p', null, t('buy.empty')));
+      host.firstChild.style.cssText = 'margin:0 0 22px;padding:20px 0;font-size:14px;' +
+        'font-weight:300;line-height:1.7;color:rgba(245,247,251,.60);' +
+        'border-top:1px solid rgba(255,255,255,.10);border-bottom:1px solid rgba(255,255,255,.10)';
+    }
+
+    // Every unit is a whole number of euros, so this should never fire. It
+    // stays as a floor in case a package is ever priced in cents.
+    if (total % 100) {
+      var trim = total % 100;
+      var big = rows.reduce(function (a, b) { return b.line > a.line ? b : a; }, rows[0]);
+      big.line -= trim;
+      big.unit = Math.round(big.line / big.n);
+      total -= trim;
+    }
+
+    rows.forEach(function (r) {
+      var p = r.p, n = r.n, list = r.list, unit = r.unit;
+      var pct = pctFor(p, sessions, list, unit);
+      var row = el('div', 'line');
+      row.innerHTML =
+        '<div class="top">' +
+          '<span style="display:flex;flex-direction:column;gap:9px;min-width:0">' +
+            '<span style="font-size:15px;font-weight:500">' + esc(pkgName(p)) + '</span>' +
+            '<span style="display:flex;align-items:center;gap:8px">' +
+              '<button type="button" class="step" data-act="dec" aria-label="' + esc(t('buy.removeOne', { name: pkgName(p) })) + '">-</button>' +
+              '<span style="min-width:22px;text-align:center;font-size:14px;font-weight:600">' + n + '</span>' +
+              '<button type="button" class="step" data-act="inc" aria-label="' + esc(t('buy.addOne', { name: pkgName(p) })) + '">+</button>' +
+              '<span style="font-size:12px;color:rgba(245,247,251,.50)">' +
+                t('buy.each', { amount: money(unit) }) + '</span>' +
+            '</span>' +
+          '</span>' +
+          '<span style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;white-space:nowrap">' +
+            '<span style="font-family:var(--cond);font-weight:800;font-size:22px;line-height:1">' + money(r.line) + '</span>' +
+            (pct ? '<span style="font-size:12px;color:rgba(245,247,251,.45);text-decoration:line-through">' + money(r.was) + '</span>' : '') +
+          '</span>' +
+        '</div>' +
+        (pct ? '<p style="margin:11px 0 0;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--pale)">' +
+               t('buy.off', { pct: pct }) + '</p>' : '');
+
+      row.querySelector('[data-act=dec]').addEventListener('click', function () { bump(p.code, -1); });
+      row.querySelector('[data-act=inc]').addEventListener('click', function () { bump(p.code, 1); });
+      host.append(row);
+    });
+
+    // One nudge for the whole basket: the tier is about total sessions, so a
+    // per-line prompt would be telling the buyer to do something that does
+    // not apply to that line.
+    var next = sessions > 0 ? nextTier(sessions) : null;
+    if (next) {
+      var add = next.min_sessions - sessions;
+      var nudge = el('button', 'nudge',
+        '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>' +
+        '<span>' + t('buy.nudge', {
+          n: add,
+          sessions: t(add === 1 ? 'common.sessionOne' : 'common.sessionMany'),
+          pct: next.percent
+        }) + '</span>');
+      nudge.type = 'button';
+      nudge.style.marginTop = '16px';
+      nudge.addEventListener('click', function () { bump('s1', add); });
+      host.append(nudge);
+    }
+
+    // Written defensively: a summary field that is not on the page should
+    // not be able to stop the basket from drawing.
+    var set = function (sel, text) { var n = $(sel); if (n) n.textContent = text; };
+    if ($('#saving')) $('#saving').hidden = gross <= total;
+    set('#savingAmt', '-' + money(gross - total));
+    set('#total', money(total));
+    lastTotal = total;
+    syncPaymentForm(total);
+  }
+
+  function draw() {
+    paintCards();
+    renderSummary();
+  }
+
+  function toggle(code) {
+    basket.qty[code] = (basket.qty[code] || 0) > 0 ? 0 : 1;
+    draw();
+  }
+  function bump(code, by) {
+    basket.qty[code] = Math.max(0, Math.min(20, (basket.qty[code] || 0) + by));
+    draw();
+  }
+
+  // ------------------------------------------------------------ submit
+
+  function fail(msg, field) {
+    var box = $('#err');
+    box.textContent = msg;
+    box.hidden = false;
+    if (field) { field.setAttribute('aria-invalid', 'true'); field.focus(); }
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  function validEmail(v) { return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(v).trim()); }
+
+  $('#buy').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    $('#err').hidden = true;
+    $('#bemail').removeAttribute('aria-invalid');
+
+    var items = Object.keys(basket.qty)
+      .filter(function (c) { return basket.qty[c] > 0; })
+      .map(function (c) { return { package_code: c, qty: basket.qty[c] }; });
+    if (!items.length) {
+      if (basket.el) basket.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return fail(t('buy.errPackage'));
+    }
+
+    var email = $('#bemail').value.trim();
+    if (!validEmail(email)) return fail(t('buy.errBuyer'), $('#bemail'));
+    var name = $('#bname').value.trim();
+
+    var btn = $('#pay');
+    btn.disabled = true;
+
+    // Everything below runs inside a promise, so a thrown error always lands
+    // in the catch at the end. Thrown outside one it would leave the button
+    // disabled with no message - a Pay press that hangs for good.
+    Promise.resolve().then(function () {
+      // Drop the wallet look while it works: "Paying…" is a state, and the
+      // Apple mark should only ever sit on a button that starts the wallet.
+      btn.classList.remove('applepay');
+      btn.querySelector('.pay-label').textContent = t('buy.paying');
+      // Reported before the card is confirmed: this is the step, not the sale.
+      // Counts tickets, which is what the Purchase event on the thank-you
+      // page counts too.
+      var itemCount = items.reduce(function (n, it) { return n + it.qty; }, 0);
+      if (window.bpcTrack) {
+        window.bpcTrack('InitiateCheckout', {
+          value: Number((lastTotal / 100).toFixed(2)),
+          currency: 'EUR',
+          num_items: itemCount || 1
+        });
+      }
+      // Validate the card fields before creating anything server-side, so a
+      // mistyped card never leaves a stray order behind.
+      if (!pay.elements) return;
+      return pay.elements.submit().then(function (r) {
+        if (r.error) throw new Error(r.error.message || t('buy.errCard'));
+      });
+    }).then(function () {
+      // One entry, and the buyer is on both sides of it. recipient_email is
+      // NOT NULL on the order and the webhook, fulfil_order and the mailer
+      // all read it, so the buyer's own address goes there rather than the
+      // column being made nullable for this one shop.
+      return fetch(API + '/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          channel: CHANNEL,
+          gifts: [{
+            items: items,
+            recipient_name: name,
+            recipient_email: email,
+            delivery_method: 'now',
+            lang: i18n.lang
+          }],
+          buyer_name: name,
+          buyer_email: email,
+          lang: i18n.lang,
+          invoice: invoiceDetails()
+        })
+      }).then(function (res) {
+        return res.json().then(function (body) { return { ok: res.ok, body: body }; });
+      }).then(function (r) {
+        if (!r.ok) {
+          throw new Error(t(r.body && r.body.error === 'payments_not_configured'
+            ? 'buy.errNoPay' : 'buy.errStart'));
+        }
+        recordHeard(r.body.order_id);
+        // The card form on this page takes it from here. Without a publishable
+        // key the server hands back a hosted URL instead, and we send them
+        // there rather than failing.
+        if (r.body.client_secret && pay.stripe && pay.elements) {
+          return pay.stripe.confirmPayment({
+            elements: pay.elements,
+            clientSecret: r.body.client_secret,
+            confirmParams: { return_url: r.body.return_url }
+          }).then(function (c) {
+            // Reached only when the payment did NOT go through; a success
+            // leaves the page for the return URL.
+            throw new Error(c.error && (c.error.type === 'card_error' || c.error.type === 'validation_error')
+              ? c.error.message : t('buy.errCard'));
+          });
+        }
+        if (r.body.checkout_url) {
+          window.location.href = r.body.checkout_url;
+          return;
+        }
+        throw new Error(t('buy.errStart'));
+      });
+    }).catch(function (e) {
+      fail(e instanceof TypeError ? t('buy.errNet') : (e && e.message) || t('buy.errStart'));
+      btn.disabled = false;
+      paintPayButton();
+    });
+  });
+
+  // ------------------------------------------------ where they heard of us
+
+  // Answered after the sale is already won or lost, never before it: the
+  // chips sit below the buyer's own details and carry no validation.
+  var HEARD = ['instagram', 'facebook', 'search', 'friend', 'been', 'other'];
+  var heardAbout = '';
+
+  function paintHeard() {
+    var box = $('#heardPick');
+    if (!box) return;
+    box.innerHTML = HEARD.map(function (k) {
+      return '<button type="button" class="lng" data-heard="' + k +
+        '" aria-pressed="' + (heardAbout === k) + '">' +
+        t('buy.heard.' + k) + '</button>';
+    }).join('');
+  }
+
+  $('#heardPick').addEventListener('click', function (ev) {
+    var b = ev.target.closest('button[data-heard]');
+    if (!b) return;
+    // Tapping the chosen one again clears it. A mis-tap on a phone should
+    // not be something the buyer is stuck with.
+    heardAbout = (heardAbout === b.dataset.heard) ? '' : b.dataset.heard;
+    paintHeard();
+  });
+
+  // Sent on its own path, after the order exists and before the card is
+  // confirmed. keepalive, because confirming the card navigates away a
+  // moment later. Nothing waits on it and nothing reads the answer back.
+  function recordHeard(orderId) {
+    if (!heardAbout || !orderId) return;
+    try {
+      fetch(API + '/attribution', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order_id: orderId, heard_about: heardAbout }),
+        keepalive: true
+      }).catch(function () {});
+    } catch (e) { /* never worth failing a sale over */ }
+  }
+
+  // ------------------------------------------------------ embedded payment
+
+  // Which tab the buyer has open inside Stripe's own method picker. Apple Pay
+  // is the only one that changes the button: a wallet press should look like
+  // the wallet, not like a card form. Everything else reads "Pay with card".
+  // Both labels sit in the markup and only their visibility moves, so the
+  // glyph survives the button being relabelled mid-payment.
+  var payMethod = '';
+
+  function paintPayButton() {
+    var btn = $('#pay');
+    if (!btn) return;
+    var label = btn.querySelector('.pay-label');
+    if (label) label.textContent = t('buy.pay');
+    var apple = payMethod === 'apple_pay';
+    btn.classList.toggle('applepay', apple);
+    // "Pay" beside the glyph stays in English: it is part of the Apple Pay
+    // mark, not copy. The spoken label carries the translation instead.
+    if (apple) btn.setAttribute('aria-label', t('buy.payApple'));
+    else btn.removeAttribute('aria-label');
+  }
+
+  var stripeJs = null;
+  function loadStripeJs() {
+    if (stripeJs) return stripeJs;
+    stripeJs = new Promise(function (resolve, reject) {
+      if (window.Stripe) return resolve(window.Stripe);
+      var s = document.createElement('script');
+      s.src = 'https://js.stripe.com/v3/';
+      s.onload = function () { window.Stripe ? resolve(window.Stripe) : reject(new Error('stripe')); };
+      s.onerror = function () { reject(new Error('stripe')); };
+      document.head.appendChild(s);
+    });
+    return stripeJs;
+  }
+
+  // Stripe draws the card fields inside its own frame - we can't reach into
+  // them, but we can hand it the page's own palette so the seam doesn't show.
+  var APPEARANCE = {
+    theme: 'night',
+    variables: {
+      colorPrimary: '#427AB7',
+      colorBackground: '#0A1422',
+      colorText: '#F5F7FB',
+      colorTextSecondary: 'rgba(245,247,251,0.60)',
+      colorTextPlaceholder: 'rgba(245,247,251,0.34)',
+      colorDanger: '#D9604F',
+      fontFamily: 'Inter, -apple-system, system-ui, sans-serif',
+      fontSizeBase: '15px',
+      borderRadius: '7px',
+      spacingUnit: '4px'
+    },
+    rules: {
+      '.Input': {
+        backgroundColor: 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(255,255,255,0.16)',
+        boxShadow: 'none',
+        padding: '13px 14px'
+      },
+      '.Input:focus': { border: '1px solid #427AB7', boxShadow: 'none',
+                        backgroundColor: 'rgba(66,122,183,0.10)' },
+      '.Input--invalid': { border: '1px solid #D9604F', boxShadow: 'none' },
+      '.Label': { color: 'rgba(245,247,251,0.72)', fontSize: '13px', fontWeight: '500' },
+      '.Tab': { backgroundColor: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(255,255,255,0.16)', boxShadow: 'none' },
+      '.Tab:hover': { backgroundColor: 'rgba(255,255,255,0.07)' },
+      '.Tab--selected': { backgroundColor: 'rgba(66,122,183,0.16)',
+                          border: '1px solid #427AB7', boxShadow: 'none' },
+      '.TabLabel': { color: 'rgba(245,247,251,0.82)' },
+      '.Error': { color: '#F0A99D', fontSize: '13px' }
+    }
+  };
+
+  var pay = { stripe: null, elements: null, element: null, ready: false };
+
+  // The card form is drawn before any order exists: Stripe is told the
+  // amount up front and the payment intent is only created when Pay is
+  // pressed. That keeps the form visible from the first paint, and stops the
+  // database filling with pending orders from people who never pay.
+  function syncPaymentForm(totalCents) {
+    if (!cat || !cat.stripe_publishable_key) return;
+    if (totalCents < 50) return;                    // Stripe's floor
+
+    if (pay.elements) {
+      pay.elements.update({ amount: totalCents });
+      return;
+    }
+    if (pay.ready) return;                           // already being set up
+    pay.ready = true;
+
+    loadStripeJs().then(function (Stripe) {
+      pay.stripe = Stripe(cat.stripe_publishable_key);
+      pay.elements = pay.stripe.elements({
+        mode: 'payment',
+        amount: totalCents,
+        currency: (cat.currency || 'eur').toLowerCase(),
+        // Without this Stripe labels its own fields from the browser's
+        // language, so a Hungarian browser read "Kártyaszám" on the English
+        // site. It follows the switcher instead.
+        locale: i18n.lang,
+        appearance: APPEARANCE
+      });
+      pay.element = pay.elements.create('payment', { layout: 'tabs' });
+      // Stripe draws the method tabs in its own frame, so the selection is
+      // only knowable by asking it. Fires on the first paint too, which is
+      // what sets the button's opening label.
+      pay.element.on('change', function (ev) {
+        var picked = (ev && ev.value && ev.value.type) || '';
+        if (picked === payMethod) return;
+        payMethod = picked;
+        paintPayButton();
+      });
+      pay.element.mount('#payment');
+    }).catch(function () {
+      pay.ready = false;
+      // Without the card form the page still works: the server falls back to
+      // Stripe's hosted page and the Pay button sends them there.
+    });
+  }
+
+  // ------------------------------------------------------------ boot
+
+  // Lines with links inside them are built from the dictionary.
+  function paintProse() {
+    var terms = link('https://www.balatonparkcircuit.com/tc', t('common.terms'), true);
+    var put = function (sel, html) { var n = $(sel); if (n) n.innerHTML = html; };
+    put('#smallprint', t('buy.smallprint'));
+    put('#refundLine', t('buy.refund', {
+      email: link('mailto:info@balatonparkcircuit.com?subject=Ticket%20Refund%20Request',
+                  t('common.emailUs'))
+    }));
+    put('#haveLine', t('buy.haveTicket', {
+      link: '<a href="register.html" style="font-weight:500">' + t('buy.registerHere') + '</a>'
+    }));
+    put('#changeLine', t('buy.mayChange', { terms: terms }));
+  }
+
+  // ---------------------------------------------------------- package info
+  // One shared panel rather than one per card: the cards are narrow and a
+  // panel inside them would have nowhere to go.
+  var tip = null;
+  function closeTip() {
+    if (tip) { tip.remove(); tip = null; }
+    document.removeEventListener('keydown', onTipKey);
+  }
+  function onTipKey(ev) { if (ev.key === 'Escape') closeTip(); }
+  function openTip(icon) {
+    closeTip();
+    var code = icon.getAttribute('data-tip');
+    tip = el('div');
+    tip.id = 'tip';
+    tip.setAttribute('role', 'dialog');
+    tip.innerHTML = '<b>' + esc(t('pkg.' + code + '.title')) + '</b>' + esc(t('pkg.' + code + '.body'));
+    document.body.appendChild(tip);
+
+    var r = icon.getBoundingClientRect(), box = tip.getBoundingClientRect();
+    var left = Math.min(Math.max(12, r.left + r.width / 2 - box.width / 2),
+                        window.innerWidth - box.width - 12);
+    var top = r.bottom + 10;
+    if (top + box.height > window.innerHeight - 12) top = Math.max(12, r.top - box.height - 10);
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    document.addEventListener('keydown', onTipKey);
+  }
+  document.addEventListener('click', function (ev) {
+    var icon = ev.target.closest && ev.target.closest('.info');
+    if (icon) { ev.preventDefault(); ev.stopPropagation(); openTip(icon); return; }
+    if (tip && !ev.target.closest('#tip')) closeTip();
+  });
+  document.addEventListener('keydown', function (ev) {
+    var icon = ev.target.closest && ev.target.closest('.info');
+    if (icon && (ev.key === 'Enter' || ev.key === ' ')) { ev.preventDefault(); openTip(icon); }
+  });
+  window.addEventListener('resize', closeTip);
+  window.addEventListener('scroll', closeTip, true);
+
+  i18n.apply();
+  i18n.mountSwitch(document.getElementById('langpick'));
+  paintProse();
+  paintHeard();
+  // Stripe fixes its locale when the element is created, so switching
+  // language has to build a new one; draw() mounts it again straight after.
+  function resetPaymentForm() {
+    if (pay.element) {
+      try { pay.element.unmount(); } catch (e) {}
+      try { pay.element.destroy(); } catch (e) {}
+    }
+    pay.stripe = null; pay.elements = null; pay.element = null; pay.ready = false;
+    // The rebuilt element opens on its own default tab, so the button must
+    // not keep claiming Apple Pay until that one reports in.
+    payMethod = '';
+    paintPayButton();
+  }
+
+  i18n.onChange(function () {
+    closeTip();
+    paintProse();
+    paintHeard();
+    resetPaymentForm();
+    if (cat) draw();
+  });
+
+  (function () {
+    var want = document.getElementById('wantinv');
+    var box = document.getElementById('invfields');
+    if (!want || !box) return;
+    want.addEventListener('change', function () { box.hidden = !want.checked; });
+  })();
+
+  // analytics.js is deferred, so it has not run yet while this inline script
+  // is parsing and window.bpcTrack does not exist. Deferred scripts always
+  // finish before DOMContentLoaded, so waiting for that is enough; checking
+  // first keeps it working if the ordering ever changes.
+  (function () {
+    function fire() {
+      if (window.bpcTrack) {
+        window.bpcTrack('ViewContent', { content_category: 'experience ticket', currency: 'EUR' });
+      }
+    }
+    if (window.bpcTrack) fire();
+    else document.addEventListener('DOMContentLoaded', fire);
+  })();
+
+  // Last visit's catalogue, so the shop is on screen immediately instead of
+  // after a round trip. A price here is only ever what gets shown: checkout
+  // recalculates every figure from the database, so a stale copy cannot
+  // change what anyone is charged, and the live answer redraws over it a
+  // moment later. Dropped after a day so it can never go properly stale.
+  //
+  // Its own key, not the gift site's: the two shops are different origins
+  // and must not be able to hand each other a cached catalogue.
+  var CACHE_KEY = 'bpc-catalogue-self';
+  var CACHE_MAX_AGE = 24 * 60 * 60 * 1000;
+
+  // Same idea as the stored copy above, but for a first-time visitor, who has
+  // nothing stored and is exactly who an ad sends here. Without this they wait
+  // out the whole round trip looking at a form with no shop above it, and the
+  // catalogue function is cold often enough that the wait reached six seconds.
+  //
+  // Deliberately carries no Stripe key: the card form is gated on
+  // cat.stripe_publishable_key, so it simply waits for the live answer rather
+  // than risking a rotated key being read from a stale copy. Packages paint at
+  // once, payment arrives a moment later.
+  //
+  // RE-BAKE THIS WHENEVER PRICES, PACKAGES OR TRACK DAYS CHANGE. It is only
+  // ever what gets drawn for the first second - checkout recalculates every
+  // figure from the database - but a wrong price on screen still costs trust.
+  // It is ignored once clearly old, which puts the page back to waiting for
+  // the network rather than quietly showing last season's prices forever.
+  var SEED_ON = '2026-11-19';
+  var SEED_MAX_AGE_DAYS = 120;
+  var SEED_CATALOGUE = {
+    "packages": [
+      { "code": "s1",  "name": "1 session",  "price_cents": 6500,  "list_price_cents": 6500,  "session_count": 1, "includes_room": false, "splittable": true },
+      { "code": "s3",  "name": "3 sessions", "price_cents": 18600, "list_price_cents": 19500, "session_count": 3, "includes_room": false, "splittable": true },
+      { "code": "s6",  "name": "6 sessions", "price_cents": 34800, "list_price_cents": 39000, "session_count": 6, "includes_room": false, "splittable": true },
+      { "code": "vip", "name": "VIP Day",    "price_cents": 45000, "list_price_cents": 45000, "session_count": 6, "includes_room": false, "splittable": false },
+      { "code": "x-drv-adv",  "name": "Driving Advanced",       "price_cents": 43500, "list_price_cents": null, "session_count": null, "includes_room": false, "splittable": false, "is_experience": true },
+      { "code": "x-drv-fun",  "name": "Driving Fun",            "price_cents": 49000, "list_price_cents": null, "session_count": null, "includes_room": false, "splittable": false, "is_experience": true },
+      { "code": "x-drv-prm",  "name": "Driving Premium",        "price_cents": 64000, "list_price_cents": null, "session_count": null, "includes_room": false, "splittable": false, "is_experience": true },
+      { "code": "x-hotlaps",  "name": "Hot Laps",               "price_cents": 34500, "list_price_cents": null, "session_count": null, "includes_room": false, "splittable": false, "is_experience": true },
+      { "code": "x-off-adv",  "name": "Off-Road Advanced",      "price_cents": 33000, "list_price_cents": null, "session_count": null, "includes_room": false, "splittable": false, "is_experience": true },
+      { "code": "x-off-fun",  "name": "Off-Road Fun",           "price_cents": 43500, "list_price_cents": null, "session_count": null, "includes_room": false, "splittable": false, "is_experience": true },
+      { "code": "x-suv",      "name": "SUV Experience",         "price_cents": 49000, "list_price_cents": null, "session_count": null, "includes_room": false, "splittable": false, "is_experience": true },
+      { "code": "x-bts",      "name": "Behind the Scenes Tour", "price_cents":  4500, "list_price_cents": null, "session_count": null, "includes_room": false, "splittable": false, "is_experience": true, "in_ladder": false },
+      { "code": "x-open-80",  "name": "Open Experience Voucher 80",  "price_cents":  8000, "list_price_cents": null, "session_count": null, "includes_room": false, "splittable": false, "is_experience": true, "in_ladder": false },
+      { "code": "x-open-135", "name": "Open Experience Voucher 135", "price_cents": 13500, "list_price_cents": null, "session_count": null, "includes_room": false, "splittable": false, "is_experience": true, "in_ladder": false },
+      { "code": "x-open-275", "name": "Open Experience Voucher 275", "price_cents": 27500, "list_price_cents": null, "session_count": null, "includes_room": false, "splittable": false, "is_experience": true, "in_ladder": false }
+    ],
+    "tiers": [
+      { "min_sessions": 3,  "percent": 5,  "unit_cents": 6200 },
+      { "min_sessions": 6,  "percent": 10, "unit_cents": 5800 },
+      { "min_sessions": 10, "percent": 20, "unit_cents": 5200 }
+    ],
+    "session_price_cents": 6500,
+    "track_days": [
+      { "id": "72278664-8526-4320-9b1d-a3aae0388fa0", "event_date": "2027-04-17", "public_label": "Mid April" },
+      { "id": "0a487861-57a4-4f78-a3cd-423e8b4c1f71", "event_date": "2027-05-22", "public_label": "Mid May" },
+      { "id": "91b8af1c-44db-4056-85c6-e77280126c15", "event_date": "2027-06-26", "public_label": "Late June" }
+    ],
+    "currency": "eur",
+    "vat_rate": 0.27
+  };
+
+  function seedCatalogue() {
+    try {
+      var age = (Date.now() - Date.parse(SEED_ON)) / 86400000;
+      if (!(age < SEED_MAX_AGE_DAYS)) return null;
+      return SEED_CATALOGUE;
+    } catch (e) { return null; }
+  }
+
+  function cachedCatalogue() {
+    try {
+      var raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      var box = JSON.parse(raw);
+      if (!box || !box.at || (Date.now() - box.at) > CACHE_MAX_AGE) return null;
+      return box.data && box.data.packages && box.data.packages.length ? box.data : null;
+    } catch (e) { return null; }
+  }
+
+  function rememberCatalogue(data) {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), data: data })); }
+    catch (e) { /* blocked storage */ }
+  }
+
+  // Which package list the cards on screen were built from.
+  var builtFrom = '';
+
+  function boot(data) {
+    var codes = data.packages.map(function (p) { return p.code; }).sort().join(',');
+    var fresh = !basket.el;
+    // The first paint comes from a stored or baked copy of the catalogue.
+    // When the live one carries a package that copy did not, the cards have
+    // to be built again: draw() only repaints cards that already exist, so
+    // without this a newly added package never appears at all. This lands
+    // within a moment of load, before anyone has typed anything.
+    if (!fresh && codes !== builtFrom) {
+      basket.cardFor = {};
+      $('#basket').replaceChildren();
+      basket.el = null;
+      fresh = true;
+    }
+    cat = data;
+    builtFrom = codes;
+    if (fresh) {
+      $('#basket').append(buildBasket());
+      i18n.apply(basket.el);
+      // Arriving from a card on the home page: that package is already in
+      // the basket, so the page opens on what they clicked rather than on
+      // the default session.
+      var want = '';
+      try {
+        want = new URLSearchParams(location.search).get('pkg') || '';
+      } catch (e) { want = ''; }
+      var picked = want && cat.packages.some(function (p) { return p.code === want; });
+      if (picked) {
+        basket.qty[want] = 1;
+      } else if (!Object.keys(basket.qty).length &&
+                 cat.packages.some(function (p) { return p.code === 's1'; })) {
+        // Open on a single session: the cheapest way in, and the ladder does
+        // the selling from there.
+        basket.qty.s1 = 1;
+      }
+    }
+    draw();
+  }
+
+  var warm = cachedCatalogue() || seedCatalogue();
+  if (warm) {
+    try { boot(warm); } catch (e) { console.error('warm boot failed', e); }
+  }
+
+  (window.__catalogue || fetch(API + '/catalogue').then(function (r) { return r.json(); }))
+    .then(function (data) {
+      if (!data || !data.packages) throw new Error('catalogue empty');
+      rememberCatalogue(data);
+      boot(data);
+    })
+    .catch(function (e) {
+      // Worth saying out loud: this catch also swallows a fault in the code
+      // that builds the page, not just a failed request.
+      console.error('catalogue/boot failed', e && (e.stack || e.message || e));
+      // Leave the page alone only if what is already drawn can actually take
+      // money. The stored copy carries a Stripe key and can; the baked seed
+      // deliberately does not, so falling through to here on the seed would
+      // otherwise leave a shop with no card form and nothing explaining why.
+      if (cat && cat.stripe_publishable_key) return;
+      $('#basket').innerHTML =
+        '<p style="color:rgba(245,247,251,.6);font-size:14px">' +
+        t('buy.errLoad', { email: link('mailto:info@balatonparkcircuit.com', t('common.emailUs')) }) + '</p>';
+      $('#pay').disabled = true;
+    });
+})();
+</script>
+</body>
+</html>
