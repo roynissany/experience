@@ -85,7 +85,7 @@
       'home.eyebrow': 'Tickets & experiences',
       // The accent sits on the word that separates this shop from the gift
       // one. i18n.apply writes these with innerHTML, so the span survives.
-      'home.h1a': 'Your <span style="color:var(--blue)">experience</span> on track.',
+      'home.h1a': '<span style="color:var(--blue)">Your experience</span> on track.',
       'home.h1b': 'Or a whole VIP day.',
       'home.lede': 'Buy your ticket for track sessions and driving experiences at Balaton Park Circuit. You get it the moment you pay, and you pick your own date.',
       'home.carsOnly': 'Cars only',
@@ -184,7 +184,9 @@
       'buy.pay': 'Pay with card',
       'buy.payApple': 'Pay with Apple Pay',
       'buy.paying': 'Paying…',
-      'buy.nudge': 'Add {n} more {sessions} for <strong>{pct}%</strong> off everything',
+      // Selections, not sessions: an experience moves the counter too, so
+      // naming sessions here would be promising the wrong thing.
+      'buy.nudge': 'Add {n} more <strong>selections</strong> for <strong>{pct}%</strong> off everything',
       'buy.noCard': 'We never see your card details.',
       'buy.codeOne': 'Your ticket is issued the moment payment clears.',
       'buy.refund': 'For refund requests, {email}.',
@@ -412,7 +414,7 @@
 
       'home.title': 'Balaton Park Circuit - Pályanapok és élmények',
       'home.eyebrow': 'Jegyek és élmények',
-      'home.h1a': 'A Te <span style="color:var(--blue)">élményed</span> a pályán.',
+      'home.h1a': '<span style="color:var(--blue)">A Te élményed</span> a pályán.',
       'home.h1b': 'Vagy egy teljes VIP nap.',
       'home.lede': 'Vásárolj jegyet a Balaton Park pályanapjaira és vezetéstechnikai programjaira! A jegyet a fizetéssel azonnal megkapod, az időpontot pedig te választod ki.',
       'home.carsOnly': 'Csak autóknak',
@@ -510,7 +512,7 @@
       'buy.pay': 'Fizetés kártyával',
       'buy.payApple': 'Fizetés Apple Pay-jel',
       'buy.paying': 'Fizetés…',
-      'buy.nudge': 'Vásárolj még {n} menetet, és mindenre <strong>{pct}%</strong> kedvezményt kapsz',
+      'buy.nudge': 'Válassz még <strong>{n} tételt</strong>, és mindenre <strong>{pct}%</strong> kedvezményt kapsz',
       'buy.noCard': 'A kártyaadataidat soha nem látjuk.',
       'buy.codeOne': 'A jegyedet a fizetés beérkezésekor azonnal kiállítjuk.',
       'buy.refund': 'Visszatérítési igény esetén {email}.',
