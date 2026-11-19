@@ -237,7 +237,7 @@
         <span class="rule" style="display:inline-block;width:48px;height:2px;background:var(--blue)"></span>
         <span data-i18n="home.eyebrow">Tickets &amp; experiences</span>
       </p>
-      <h1 class="up d1"><span data-i18n="home.h1a">Your day on track.</span> <span style="color:var(--blue)" data-i18n="home.h1b">Or a whole VIP day.</span></h1>
+      <h1 class="up d1"><span data-i18n="home.h1a">Your <span style="color:var(--blue)">experience</span> on track.</span> <span data-i18n="home.h1b">Or a whole VIP day.</span></h1>
       <p class="lede up d3" data-i18n="home.lede">Buy your ticket for track sessions and driving experiences at Balaton Park Circuit. You get it the moment you pay, and you pick your own date.</p>
       <p class="up d3" style="margin:14px 0 0;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,247,251,.72)" data-i18n="home.carsOnly">Cars only</p>
 
@@ -258,27 +258,6 @@
   </div>
 
   <main class="wrap pad" style="flex-grow:1">
-
-    <section id="how" style="margin:clamp(56px,10vw,92px) 0 0">
-      <h2 class="up" style="margin:0 0 40px"><span data-i18n="home.howA">How it</span> <span style="color:var(--blue)" data-i18n="home.howB">works.</span></h2>
-      <div class="steps">
-        <div class="step up d1">
-          <p class="n">01</p>
-          <h3 style="margin:0 0 10px" data-i18n="home.step1h">You buy</h3>
-          <p class="t" data-i18n="home.step1p">Pick a package or an experience. Your ticket is issued the moment payment clears - on screen and by email.</p>
-        </div>
-        <div class="step up d3">
-          <p class="n">02</p>
-          <h3 style="margin:0 0 10px" data-i18n="home.step2h">You pick your date</h3>
-          <p class="t" data-i18n="home.step2p">Come back, enter the code and choose from our published track days.</p>
-        </div>
-        <div class="step up d5">
-          <p class="n">03</p>
-          <h3 style="margin:0 0 10px" data-i18n="home.step3h">You drive</h3>
-          <p class="t" data-i18n="home.step3p">You get the booking code for that day, and we help you with the rest.</p>
-        </div>
-      </div>
-    </section>
 
     <section id="experiences" style="margin:clamp(56px,10vw,92px) 0 0">
       <h2 class="up" style="margin:0 0 16px">
@@ -306,6 +285,31 @@
         <button type="button" class="day lift up d2"><p class="big" data-i18n="home.d2big">22 May</p><p class="sub" data-i18n="home.daySub">Saturday · 2027</p></button>
         <button type="button" class="day lift up d3"><p class="big" data-i18n="home.d3big">26 June</p><p class="sub" data-i18n="home.daySub">Saturday · 2027</p></button>
         <div class="day soon up d4"><p data-i18n="home.soon">More to come soon!</p></div>
+      </div>
+    </section>
+
+    <!-- Last, not first. Somebody who came here to buy a ticket for
+         themselves already knows what they want: the shop goes above, and
+         the explanation waits at the bottom for whoever scrolls that far.
+         The gift shop keeps it at the top, where it still earns its place. -->
+    <section id="how" style="margin:clamp(56px,10vw,92px) 0 0">
+      <h2 class="up" style="margin:0 0 40px"><span data-i18n="home.howA">How it</span> <span style="color:var(--blue)" data-i18n="home.howB">works.</span></h2>
+      <div class="steps">
+        <div class="step up d1">
+          <p class="n">01</p>
+          <h3 style="margin:0 0 10px" data-i18n="home.step1h">You buy</h3>
+          <p class="t" data-i18n="home.step1p">Pick a package or an experience. Your ticket is issued the moment payment clears - on screen and by email.</p>
+        </div>
+        <div class="step up d3">
+          <p class="n">02</p>
+          <h3 style="margin:0 0 10px" data-i18n="home.step2h">You pick your date</h3>
+          <p class="t" data-i18n="home.step2p">Come back, enter the code and choose from our published track days.</p>
+        </div>
+        <div class="step up d5">
+          <p class="n">03</p>
+          <h3 style="margin:0 0 10px" data-i18n="home.step3h">You drive</h3>
+          <p class="t" data-i18n="home.step3p">You get the booking code for that day, and we help you with the rest.</p>
+        </div>
       </div>
     </section>
 

@@ -83,7 +83,9 @@
       /* landing */
       'home.title': 'Balaton Park Circuit - Track Days & Experiences',
       'home.eyebrow': 'Tickets & experiences',
-      'home.h1a': 'Your day on track.',
+      // The accent sits on the word that separates this shop from the gift
+      // one. i18n.apply writes these with innerHTML, so the span survives.
+      'home.h1a': 'Your <span style="color:var(--blue)">experience</span> on track.',
       'home.h1b': 'Or a whole VIP day.',
       'home.lede': 'Buy your ticket for track sessions and driving experiences at Balaton Park Circuit. You get it the moment you pay, and you pick your own date.',
       'home.carsOnly': 'Cars only',
@@ -410,7 +412,7 @@
 
       'home.title': 'Balaton Park Circuit - Pályanapok és élmények',
       'home.eyebrow': 'Jegyek és élmények',
-      'home.h1a': 'A Te pályanapod.',
+      'home.h1a': 'A Te <span style="color:var(--blue)">élményed</span> a pályán.',
       'home.h1b': 'Vagy egy teljes VIP nap.',
       'home.lede': 'Vásárolj jegyet a Balaton Park pályanapjaira és vezetéstechnikai programjaira! A jegyet a fizetéssel azonnal megkapod, az időpontot pedig te választod ki.',
       'home.carsOnly': 'Csak autóknak',
