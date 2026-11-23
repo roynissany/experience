@@ -595,6 +595,19 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
     });
   }
+  // The chips and the long copy now live in i18n.js, which the purchase
+  // page's i button reads as well, so the two panels cannot drift apart.
+  // The tables above are kept only as a fallback, and for the cards that
+  // have no package code of their own.
+  function longOf(r, t) {
+    var v = (r.pkg && window.i18n) ? i18n.t('pkg.' + r.pkg + '.long') : null;
+    return (v && typeof v !== 'string' && v.length) ? v : (t.long || [t.hook]);
+  }
+  function metaOf(r, t) {
+    var v = (r.pkg && window.i18n) ? i18n.t('pkg.' + r.pkg + '.meta') : null;
+    return (v && typeof v !== 'string' && v.length) ? v : t.meta;
+  }
+
   function dict() {
     return (window.i18n && i18n.lang === 'hu') ? HU : EN;
   }
@@ -622,7 +635,7 @@
           '<span class="tag">' + esc(D.cat[r.cat]) + '</span></div>'
         : '<div class="shot novoucher"><span class="mark">' + esc(D.voucher) + '</span>' +
           '<span class="tag">' + esc(D.cat[r.cat]) + '</span></div>';
-      var chips = t.meta.map(function (m) {
+      var chips = metaOf(r, t).map(function (m) {
         return '<span>' + esc(titleCase(m)) + '</span>'; }).join('');
       return '<article class="x">' + shot + '<div class="in">' +
         '<h3>' + esc(t.name) + '</h3>' +
@@ -683,9 +696,9 @@
     panel.innerHTML =
       '<div class="sheet xs" role="dialog" aria-modal="true">' +
         '<h2>' + esc(t.name) + '</h2>' +
-        (t.long || [t.hook]).map(function (p) {
+        longOf(r, t).map(function (p) {
           return '<p>' + esc(p) + '</p>'; }).join('') +
-        '<div class="meta">' + t.meta.map(function (m) {
+        '<div class="meta">' + metaOf(r, t).map(function (m) {
           return '<span>' + esc(titleCase(m)) + '</span>'; }).join('') + '</div>' +
         '<div class="pr tnum">' + priceOf(r, D) +
           '<small>' + esc(D.vat) +
